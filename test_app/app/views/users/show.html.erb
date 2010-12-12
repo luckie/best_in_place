@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+<div id="user_account">
+  <h1>User data</h1>
+  <table>
+    <tr>
+      <td>Name</td>
+      <td>
+        <%= rest_in_place @user, "name" %>
+      </td>
+    </tr>
+    <tr>
+      <td>Last Name</td>
+      <td>
+        <span class='rest_in_place' data-attribute='last_name' data-object='user' data-url='<%= url_for(@user) %>' id='rest_in_place_user_last_name'>
+          <%= @user.last_name %>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>Email</td>
+      <td>
+        <span class='rest_in_place' data-attribute='email' data-object='user' data-url='<%= url_for(@user) %>' id='rest_in_place_user_email'>
+          <%= @user.email %>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>Address</td>
+      <td>
+        <span class='rest_in_place' data-attribute='address' data-object='user' data-url='<%= url_for(@user) %>' id='rest_in_place_user_address'>
+          <%= @user.address %>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>ZIP</td>
+      <td>
+        <span class='rest_in_place' data-attribute='zip' data-object='user' data-url='<%= url_for(@user) %>' id='rest_in_place_user_zip'>
+          <%= @user.zip %>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>Country</td>
+      <td>
+          <%= rest_in_place @user, "country", "/users/get_countries/" %>
+      </td>
+    </tr>
+  </table>
+</div>
