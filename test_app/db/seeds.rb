@@ -8,7 +8,6 @@
 
 User.delete_all
 
-User.create!(:name => "Lucia", :last_name => "Bellamoli", :email => "luciabellamoli@gmail.com", :address => "Ca del Diavolo 9", :zip => "25123", :country => "Italy")
-User.create!(:name => "Carmen", :last_name => "Sancerni", :email => "carmen@sancerni.com", :address => "c/Saraís 9", :zip => "21333", :country => "Spain")
-User.create!(:name => "Angels", :last_name => "Farrero", :email => "angels@gmail.com", :address => "Sant Andreu 1", :zip => "08033", :country => "Spain")
-  
+User.create!(:name => "Lucia", :last_name => "Napoli", :email => "lucianapoli@gmail.com", :address => "Via Diavolo 99", :zip => "25123", :country => "Italy", :receive_email => false)
+User.create!(:name => "Carmen", :last_name => "Luciago", :email => "carmen@luciago.com", :address => "c/Ambrosio 10", :zip => "21333", :country => "Spain", :receive_email => true)
+User.create!(:name => "Angels", :last_name => "Domènech", :email => "angels@gmail.com", :address => "Avinguda Sant Andreu 1", :zip => "08033", :country => "Spain", :receive_email => false)

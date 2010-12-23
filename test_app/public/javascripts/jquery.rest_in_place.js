@@ -43,7 +43,7 @@ RestInPlaceEditor.prototype = {
     self.element.parents().each(function(){
       self.url           = self.url           || jQuery(this).attr("data-url");
       self.selectValues  = self.selectValues  || jQuery(this).attr("data-selectValues");
-      self.formType      = self.formType      || jQuery(this).attr("data-formtype");
+      self.formType      = self.formType      || jQuery(this).attr("data-formType");
       self.objectName    = self.objectName    || jQuery(this).attr("data-object");
       self.attributeName = self.attributeName || jQuery(this).attr("data-attribute");
     });
@@ -54,15 +54,18 @@ RestInPlaceEditor.prototype = {
         self.objectName = self.objectName || res[1];
       }
     });
+    
+    var ft = (self.selectValues != null ? "select" : "input");
+    
     // Load own attributes (overrides all others)
     self.url           = self.element.attr("data-url")          || self.url      || document.location.pathname;
     self.selectValues  = self.element.attr("data-selectValues") || self.selectValues;
-    self.formType      = self.element.attr("data-formtype")     || self.formtype || self.selectValues != null ? "select" : "input"
+    self.formType      = self.element.attr("data-formType")     || self.formtype || ft
     self.objectName    = self.element.attr("data-object")       || self.objectName;
     self.attributeName = self.element.attr("data-attribute")    || self.attributeName;
     self.activator     = self.element.attr("data-activator")    || self.element;
 
-    if (self.formType == "select" && self.selectValues != nul)
+    if (self.formType == "select" && self.selectValues != null)
     {
       var type = typeof self.selectValues;
       if (type == "string" && self.selectValues != "")
@@ -92,7 +95,7 @@ RestInPlaceEditor.prototype = {
      var tmp = document.createElement("DIV");
      tmp.innerHTML = s;
      return jQuery.trim(tmp.textContent||tmp.innerText);
-  }
+  },
 
   /* Generate the data sent in the POST request */
   requestData : function() {
@@ -176,18 +179,36 @@ RestInPlaceEditor.forms = {
       var selected = "";
       var oldValue = this.oldValue;
       $.each(this.values, function(index, value) {
-        selected = (index == oldValue ? "selected" : "")
+        selected = (index == oldValue ? "selected='selected'" : "")
         output += "<option value='" + index + "' " + selected + ">" + value + "</option>"
        });
       output += "</select></form>"
       this.element.html(output);
       this.element.find("select").bind('change', {editor: this}, RestInPlaceEditor.forms.select.blurHandler);
     },
-
+  
     getValue : function() {
       return this.sanitize(this.element.find("select").val());
     },
-
+  
+    blurHandler : function(event) {
+      event.data.editor.update();
+    }
+  },
+  
+  "checkbox" : {
+    activateForm : function() {
+      var output = "<form action='javascript:void(0)' style='display:inline;'>";
+      checked = (this.oldValue ? "checked='checked'" : "");
+      output += "<input type='checkbox' " + checked + "/></form>"
+      this.element.html(output);
+      this.element.find("input").bind('change', {editor: this}, RestInPlaceEditor.forms.select.blurHandler);
+    },
+  
+    getValue : function() {
+      return this.sanitize(this.element.find("input").val());
+    },
+  
     blurHandler : function(event) {
       event.data.editor.update();
     }
@@ -227,6 +248,7 @@ jQuery.fn.rest_in_place = function(options) {
 // - Sanitize HTML + Trim spaces √
 // - Server Side Validation and exception catching √
 // - Populate select fields with collections √
+// - Checkbox
 // - Client Side Validation
 // - Accepts given click handlers
 // - Accepts handler to activate all rest_in_place fields at once

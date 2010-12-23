@@ -5,45 +5,43 @@
     <tr>
       <td>Name</td>
       <td>
-        <%= rest_in_place @user, "name" %>
+        <%= best_in_place @user, "name", "input" %>
       </td>
     </tr>
     <tr>
       <td>Last Name</td>
       <td>
-        <span class='rest_in_place' data-attribute='last_name' data-object='user' data-url='<%= url_for(@user) %>' id='rest_in_place_user_last_name'>
-          <%= @user.last_name %>
-        </span>
+        <%= best_in_place @user, "last_name" %>
       </td>
     </tr>
     <tr>
       <td>Email</td>
       <td>
-        <span class='rest_in_place' data-attribute='email' data-object='user' data-url='<%= url_for(@user) %>' id='rest_in_place_user_email'>
-          <%= @user.email %>
-        </span>
+          <%= best_in_place @user, "email" %>
       </td>
     </tr>
     <tr>
       <td>Address</td>
       <td>
-        <span class='rest_in_place' data-attribute='address' data-object='user' data-url='<%= url_for(@user) %>' id='rest_in_place_user_address'>
-          <%= @user.address %>
-        </span>
+          <%= best_in_place @user, "address" %>
       </td>
     </tr>
     <tr>
       <td>ZIP</td>
       <td>
-        <span class='rest_in_place' data-attribute='zip' data-object='user' data-url='<%= url_for(@user) %>' id='rest_in_place_user_zip'>
-          <%= @user.zip %>
-        </span>
+          <%= best_in_place @user, "zip" %>
       </td>
     </tr>
     <tr>
       <td>Country</td>
       <td>
-          <%= rest_in_place @user, "country", "/users/get_countries/" %>
+          <%= best_in_place @user, "country", "select", "/users/get_countries/" %>
+      </td>
+    </tr>
+    <tr>
+      <td>Receive newsletter?</td>
+      <td>
+        <%= best_in_place @user, "receive_email", "checkbox" %>
       </td>
     </tr>
   </table>

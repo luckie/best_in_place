@@ -13,7 +13,7 @@
 #user_account input {
   width: 80%;
 }
-#user_account .rest_in_place {
+#user_account .best_in_place {
   padding: .1m;
   cursor: hand;
   cursor: pointer;
@@ -27,7 +27,7 @@
   -khtml-border-radius: 5px;
   border-radius: 5px;
 }
-#user_account .rest_in_place:hover, #user_account .do_hover {
+#user_account .best_in_place:hover, #user_account .do_hover {
   padding-right: 1.5em;
   background: url("/images/red_pen.png") no-repeat right;
   background-color: #CCC;

@@ -1,0 +1,1 @@
+../../../public/javascripts/best_in_place.js

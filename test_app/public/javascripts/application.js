@@ -4,7 +4,7 @@
 $(document).ready(function() {
 
   /* Activating Rest In Place */
-  jQuery(".rest_in_place").rest_in_place()
+  jQuery(".best_in_place").best_in_place()
   
   /* Growl-like flash-notices */
   $(".flash-alert").purr()
