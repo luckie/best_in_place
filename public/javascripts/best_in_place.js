@@ -46,7 +46,9 @@ BestInPlaceEditor.prototype = {
       "success"    : function(data){ editor.loadSuccessCallback(data) },
       "error"      : function(request, error){ editor.loadErrorCallback(request, error) }
     })
-    editor.element.html(this.getValue())
+    if (this.formType == "select") {
+      editor.element.html(this.values[this.getValue()][0])
+    } else editor.element.html(this.getValue())
   },
 
   activateForm : function() {
@@ -196,7 +198,7 @@ BestInPlaceEditor.forms = {
     },
 
     getValue : function() {
-      return this.sanitize(this.values[this.element.find("select").val()][0])
+      return this.sanitize(this.element.find("select").val())
     },
 
     blurHandler : function(event) {

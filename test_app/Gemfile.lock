@@ -1,5 +1,5 @@
 PATH
-  remote: ../../best_in_place
+  remote: ..
   specs:
     best_in_place (0.1.0)
       rails (~> 3.0.0)
