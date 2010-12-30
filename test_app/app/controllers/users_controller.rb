@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   # GET /users/1.xml
   def show
     @user = User.find(params[:id])
+    @countries = { 1, "Spain", 2, "Italy", 3, "Germany", 4, "France" }.to_json
 
     respond_to do |format|
       format.html # show.html.erb

@@ -1,3 +1,21 @@
+/*
+        BestInPlace (for jQuery)
+        version: 0.1.0 (01/01/2011)
+        @requires jQuery >= v1.4
+        @requires jQuery.purr to display pop-up windows
+
+        By Bernat Farrero based on the work of Jan Varwig.
+        Examples at http://bernatfarrero.com
+
+        Licensed under the MIT:
+          http://www.opensource.org/licenses/mit-license.php
+          
+        Usage:
+
+        Attention. Format of JSON given to select inputs is the following way.
+        [["name1", "value1"],["name2", "value2"]]
+*/
+
 function BestInPlaceEditor(e) {
   this.element = jQuery(e)
   this.initOptions()
@@ -54,9 +72,9 @@ BestInPlaceEditor.prototype = {
         self.objectName = self.objectName || res[1]
       }
     })
-    
+
     var ft = (self.selectValues != null ? "select" : "input")
-    
+
     // Load own attributes (overrides all others)
     self.url           = self.element.attr("data-url")          || self.url      || document.location.pathname
     self.selectValues  = self.element.attr("data-selectValues") || self.selectValues
@@ -67,17 +85,7 @@ BestInPlaceEditor.prototype = {
 
     if (self.formType == "select" && self.selectValues != null)
     {
-      var type = typeof self.selectValues
-      if (type == "string" && self.selectValues != "")
-      {
-        $.get(self.selectValues, function(data) {
-          self.values = data
-        })
-      }
-      else if (type == "object")// Values are given via javascript data()
-      {
-        self.values = self.selectValues
-      }
+      self.values = jQuery.parseJSON(self.selectValues)
     }
   },
 
@@ -180,35 +188,36 @@ BestInPlaceEditor.forms = {
       var oldValue = this.oldValue
       $.each(this.values, function(index, value) {
         selected = (index == oldValue ? "selected='selected'" : "")
-        output += "<option value='" + index + "' " + selected + ">" + value + "</option>"
+        output += "<option value='" + index + "' " + selected + ">" + value[0] + "</option>"
        })
       output += "</select></form>"
       this.element.html(output)
       this.element.find("select").bind('change', {editor: this}, BestInPlaceEditor.forms.select.blurHandler)
     },
-  
+
     getValue : function() {
-      return this.sanitize(this.element.find("select").val())
+      return this.sanitize(this.values[this.element.find("select").val()][0])
     },
-  
+
     blurHandler : function(event) {
       event.data.editor.update()
     }
   },
-  
+
   "checkbox" : {
     activateForm : function() {
       var output = "<form action='javascript:void(0)' style='display:inline;'>"
       checked = (this.oldValue ? "checked='checked'" : "")
+      // output += "<input type='hidden' "
       output += "<input type='checkbox' " + checked + "/></form>"
       this.element.html(output)
       this.element.find("input").bind('change', {editor: this}, BestInPlaceEditor.forms.select.blurHandler)
     },
-  
+
     getValue : function() {
       return this.sanitize(this.element.find("input").val())
     },
-  
+
     blurHandler : function(event) {
       event.data.editor.update()
     }
@@ -239,15 +248,3 @@ jQuery.fn.best_in_place = function(options) {
   })
   return this
 }
-
-
-
-// TODO
-// ====
-// - Sanitize HTML + Trim spaces √
-// - Server Side Validation and exception catching √
-// - Populate select fields with collections √
-// - Checkbox
-// - Client Side Validation
-// - Accepts given click handlers
-// - Accepts handler to activate all best_in_place fields at once
