@@ -189,7 +189,7 @@ BestInPlaceEditor.forms = {
       var selected = ""
       var oldValue = this.oldValue
       $.each(this.values, function(index, value) {
-        selected = (index == oldValue ? "selected='selected'" : "")
+        selected = (value[0] == oldValue ? "selected='selected'" : "")
         output += "<option value='" + index + "' " + selected + ">" + value[0] + "</option>"
        })
       output += "</select></form>"
@@ -206,6 +206,7 @@ BestInPlaceEditor.forms = {
     }
   },
 
+  /* Not yet working */
   "checkbox" : {
     activateForm : function() {
       var output = "<form action='javascript:void(0)' style='display:inline;'>"
@@ -244,7 +245,7 @@ BestInPlaceEditor.forms = {
   }
 }
 
-jQuery.fn.best_in_place = function(options) {
+jQuery.fn.best_in_place = function() {
   this.each(function(){
     jQuery(this).data('bestInPlaceEditor', new BestInPlaceEditor(this))
   })
