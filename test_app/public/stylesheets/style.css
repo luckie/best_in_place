@@ -1,19 +1,32 @@
 /* ======================================================= */
 /*                      User Account                       */
 /* ======================================================= */
-#user_account table {
-  width: 36em;
+table {
+  width: 50em;
   border: 1px solid #CCC;
   background-color: #f5f5f5;
 }
-#user_account table td:first-child {
+table td:first-child {
   width: 12em;
   padding: 0.5em;
 }
-#user_account input {
+table th {
+  text-align: left;
+}
+input {
   width: 80%;
 }
-#user_account .best_in_place {
+input[type=submit] {
+  width: 5em;
+}
+input[type=checkbox] {
+  width: 1em;
+}
+textarea {
+  height:15em;
+  width: 30em;
+}
+.best_in_place {
   padding: .1m;
   cursor: hand;
   cursor: pointer;
@@ -27,12 +40,12 @@
   -khtml-border-radius: 5px;
   border-radius: 5px;
 }
-#user_account .best_in_place:hover, #user_account .do_hover {
+.best_in_place:hover, #user_account .do_hover {
   padding-right: 1.5em;
   background: url("/images/red_pen.png") no-repeat right;
   background-color: #CCC;
 }
-#user_account .info_edit {
+.info_edit {
   float: right;
   cursor: hand;
   cursor: pointer;

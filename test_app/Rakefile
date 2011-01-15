@@ -4,4 +4,4 @@
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
-RipApp::Application.load_tasks
+BipApp::Application.load_tasks

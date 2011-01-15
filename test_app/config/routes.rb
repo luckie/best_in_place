@@ -1,4 +1,4 @@
-RipApp::Application.routes.draw do
+BipApp::Application.routes.draw do
   resources :users do
     collection do
       get :get_countries, :as => "countries"

@@ -4,26 +4,14 @@
   <tr>
     <th>Name</th>
     <th>Last name</th>
-    <th>Address</th>
-    <th>Email</th>
-    <th>Zip</th>
     <th>Country</th>
-    <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
 <% @users.each do |user| %>
   <tr>
-    <td><%= user.name %></td>
+    <td><%= link_to user.name, user %></td>
     <td><%= user.last_name %></td>
-    <td><%= user.address %></td>
-    <td><%= user.email %></td>
-    <td><%= user.zip %></td>
-    <td><%= user.country %></td>
-    <td><%= link_to 'Show', user %></td>
-    <td><%= link_to 'Edit', edit_user_path(user) %></td>
-    <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= COUNTRIES[user.country.to_i] %></td>
   </tr>
 <% end %>
 </table>
