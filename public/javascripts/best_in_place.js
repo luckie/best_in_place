@@ -9,7 +9,7 @@
 
         Licensed under the MIT:
           http://www.opensource.org/licenses/mit-license.php
-          
+
         Usage:
 
         Attention. Format of JSON given to select inputs is the following way.
@@ -47,7 +47,7 @@ BestInPlaceEditor.prototype = {
       "error"      : function(request, error){ editor.loadErrorCallback(request, error) }
     })
     if (this.formType == "select") {
-      editor.element.html(this.values[this.getValue()][0])
+      editor.element.html(this.values[this.getValue()][1])
     } else editor.element.html(this.getValue())
   },
 
@@ -189,8 +189,8 @@ BestInPlaceEditor.forms = {
       var selected = ""
       var oldValue = this.oldValue
       $.each(this.values, function(index, value) {
-        selected = (value[0] == oldValue ? "selected='selected'" : "")
-        output += "<option value='" + index + "' " + selected + ">" + value[0] + "</option>"
+        selected = (value[1] == oldValue ? "selected='selected'" : "")
+        output += "<option value='" + index + "' " + selected + ">" + value[1] + "</option>"
        })
       output += "</select></form>"
       this.element.html(output)
@@ -211,10 +211,10 @@ BestInPlaceEditor.forms = {
     activateForm : function() {
       var output = "<form action='javascript:void(0)' style='display:inline;'>"
       checked = (this.oldValue ? "checked='checked'" : "")
-      // output += "<input type='hidden' "
+      output += "<input type='hidden' value=" + !Boolean(this.oldValue) + "/>"
       output += "<input type='checkbox' " + checked + "/></form>"
       this.element.html(output)
-      this.element.find("input").bind('change', {editor: this}, BestInPlaceEditor.forms.select.blurHandler)
+      this.element.find("input").bind('click', {editor: this}, BestInPlaceEditor.forms.select.blurHandler)
     },
 
     getValue : function() {
@@ -239,7 +239,7 @@ BestInPlaceEditor.forms = {
     },
 
     blurHandler : function(event) {
-      this.update()
+      event.data.editor.update()
     }
 
   }
