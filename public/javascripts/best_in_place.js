@@ -216,7 +216,7 @@ BestInPlaceEditor.forms = {
     getValue : function() {
       return Boolean(this.element.html() == this.values[1])
     }
-  },s
+  },
 
   "textarea" : {
     activateForm : function() {

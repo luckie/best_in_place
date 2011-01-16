@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Bernat Farrero"]
   s.email       = ["bernat@itnig.net"]
   s.homepage    = "http://github.com/bernat/best_in_place"
-  s.summary     = %q{It allows the views to become in-place editable, it works for inputs, textareas, selects and checkbox}
-  s.description = %q{It allows the views to become in-place editable, it works for inputs, textareas, selects and checkbox}
+  s.summary     = %q{It makes any field in place editable by clicking on it, it works for inputs, textareas, select dropdowns and checkboxes}
+  s.description = %q{It is basically a jQuery script and a Rails 3 helper that allows to use the method best_in_place to display any object that the user will be able to edit by just clicking on it. It supports input data, text data, boolean data and custom dropdown data. It works with RESTful controllers.}
 
   s.rubyforge_project = "best_in_place"
 
