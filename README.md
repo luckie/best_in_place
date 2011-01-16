@@ -106,7 +106,11 @@ in the following order:
 
 - jquery-1.4.2.js
 - jquery.purr.js
-- best_in_place.js
+- **best_in_place.js**
+
+The last one you can copy it (and keeping up to date to the last version) by running the following generator in your application's root:
+
+    rails g best_in_place:setup
 
 To be able to use the script the following block must be added as well:
 

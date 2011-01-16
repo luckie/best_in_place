@@ -12,8 +12,11 @@
 
         Usage:
 
-        Attention. Format of JSON given to select inputs is the following way.
-        [["name1", "value1"],["name2", "value2"]]
+        Attention. 
+        The format of the JSON object given to the select inputs is the following:
+        [["key", "value"],["key", "value"]]
+        The format of the JSON object given to the checkbox inputs is the following:
+        ["falseValue", "trueValue"]
 */
 
 function BestInPlaceEditor(e) {
