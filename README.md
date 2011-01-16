@@ -76,7 +76,7 @@ To be able to use the script the following block must be added as well:
 
 In order to use the Rails 3 gem, just add the following line to the gemfile:
 
-    gem "best_in_place", :git => "http://github.com/bernat/best_in_place"
+    gem "best_in_place"
 
 ----
 
