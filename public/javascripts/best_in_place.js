@@ -48,6 +48,8 @@ BestInPlaceEditor.prototype = {
     })
     if (this.formType == "select") {
       editor.element.html(this.values[this.getValue()][1])
+    } else if (this.formType == "checkbox") {
+      editor.element.html(this.getValue() ? this.values[1] : this.values[0])
     } else editor.element.html(this.getValue())
   },
 
@@ -75,17 +77,15 @@ BestInPlaceEditor.prototype = {
       }
     })
 
-    var ft = (self.selectValues != null ? "select" : "input")
-
     // Load own attributes (overrides all others)
     self.url           = self.element.attr("data-url")          || self.url      || document.location.pathname
     self.selectValues  = self.element.attr("data-selectValues") || self.selectValues
-    self.formType      = self.element.attr("data-formType")     || self.formtype || ft
+    self.formType      = self.element.attr("data-formType")     || self.formtype || "input"
     self.objectName    = self.element.attr("data-object")       || self.objectName
     self.attributeName = self.element.attr("data-attribute")    || self.attributeName
     self.activator     = self.element.attr("data-activator")    || self.element
 
-    if (self.formType == "select" && self.selectValues != null)
+    if ((self.formType == "select" || self.formType == "checkbox") && self.selectValues != null)
     {
       self.values = jQuery.parseJSON(self.selectValues)
     }
@@ -158,7 +158,6 @@ BestInPlaceEditor.prototype = {
 
 BestInPlaceEditor.forms = {
   "input" : {
-    /* is bound to the editor and called to replace the element's content with a form for editing data */
     activateForm : function() {
       var form = '<form class="form_in_place" action="javascript:void(0)" style="display:inline;"><input type="text" value="' + this.sanitize(this.oldValue) + '"></form>'
       this.element.html(form)
@@ -206,28 +205,20 @@ BestInPlaceEditor.forms = {
     }
   },
 
-  /* Not yet working */
   "checkbox" : {
     activateForm : function() {
-      var output = "<form action='javascript:void(0)' style='display:inline;'>"
-      checked = (this.oldValue ? "checked='checked'" : "")
-      output += "<input type='hidden' value=" + !Boolean(this.oldValue) + "/>"
-      output += "<input type='checkbox' " + checked + "/></form>"
+      var newValue = Boolean(this.oldValue != this.values[1])
+      var output = newValue ? this.values[1] : this.values[0]
       this.element.html(output)
-      this.element.find("input").bind('click', {editor: this}, BestInPlaceEditor.forms.select.blurHandler)
+      this.update()
     },
 
     getValue : function() {
-      return this.sanitize(this.element.find("input").val())
-    },
-
-    blurHandler : function(event) {
-      event.data.editor.update()
+      return Boolean(this.element.html() == this.values[1])
     }
-  },
+  },s
 
   "textarea" : {
-    /* is bound to the editor and called to replace the element's content with a form for editing data */
     activateForm : function() {
       this.element.html('<form action="javascript:void(0)" style="display:inline;"><textarea>' + this.sanitize(this.oldValue) + '</textarea></form>')
       this.element.find('textarea')[0].select()

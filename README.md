@@ -14,12 +14,12 @@ The editor works by PUTting the updated value to the server and GETting the upda
 
 ###Features
 
-- Compatible with text inputs
-- Compatible with textarea
-- Compatible with select dropdown collections
-- Compatible with checkboxes
+- Compatible with text **inputs**
+- Compatible with **textarea**
+- Compatible with **select** dropdown with custom collections
+- Compatible with custom boolean values (like **checkboxes**)
 - Sanitize HTML and trim spaces of user's input
-- Displays server-side validation errors
+- Displays server-side **validation** errors
 
 ---
 
@@ -49,6 +49,10 @@ Examples (code placed in the views):
 Of course it can take an instance or global variable for the collection, just remember the structure [[key, value], [key, value],...]
 
 #### Checkbox
+
+    <%= best_in_place @user, :receive_emails, :checkbox, ["No, thanks", "Yes, of course!"] %>
+
+The first value is always the negative boolean value and the second the positive. If not defined, it will display *Yes* and *No* options.
 
 ---
 

@@ -9,8 +9,11 @@ module BestInPlace
       end
       if formType == :checkbox
         fieldValue = !!object.send(field)
-        value = "<form action='javascript:void(0)' style='display:inline;'><input type='checkbox' "
-        value += (fieldValue ? "checked='checked'" : "") + "/></form>"
+        if selectValues.blank? || selectValues.size != 2
+          selectValues = ["No", "Yes"]
+        end
+        value = fieldValue ? selectValues[1] : selectValues[0]
+        selectValues = selectValues.to_json
       end
       out = "<span class='best_in_place'"
       out += " id='best_in_place_" + object.class.to_s.underscore + "_" + field.to_s + "'"
