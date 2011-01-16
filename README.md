@@ -27,10 +27,11 @@ The editor works by PUTting the updated value to the server and GETting the upda
 
 ##Usage of Rails 3 Gem
 
-best_in_place Object, Field, [Type, [SelectValues]]
+**best_in_place Object, Field, [formType, [SelectValues]]**
 
 The object is the object itself you are about to modify. The field (passed as symbol) is the represented attribute of the Object.
-You can add the type [:input, :textarea, :select, :checkbox] and, in case you chose :select, you must specify the collection of values it can take.
+You can add the formType [:input, :textarea, :select, :checkbox] or it defaults to :input. In case you chose :select, you must specify the 
+collection of values it can take. In case you use :checkbox, you can specify the two possible boolean values.
 
 If created a [test_app](https://github.com/bernat/best_in_place/tree/master/test_app) and a running demo in heroku to test the features.
 
@@ -54,7 +55,47 @@ Of course it can take an instance or global variable for the collection, just re
 
     <%= best_in_place @user, :receive_emails, :checkbox, ["No, thanks", "Yes, of course!"] %>
 
-The first value is always the negative boolean value and the second the positive. If not defined, it will display *Yes* and *No* options.
+The first value is always the negative boolean value and the second the positive [false, true]. 
+If not defined, it will default to *Yes* and *No* options.
+
+### Display server validation errors
+
+If you are using a Rails application, your controller's should respond to json and js in case of error.
+Example:
+
+    def update
+      @user = User.find(params[:id])
+
+      respond_to do |format|
+        if @user.update_attributes(params[:user])
+          format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
+        else
+          format.html { render :action => "edit" }
+          format.json  { render :json => @user.errors, :status => :unprocessable_entity }
+          format.js  { render :js => @user.errors, :status => :unprocessable_entity }
+        end
+      end
+    end
+
+At the same time, you must define the restrictions, validations and error messages in the model, as the example below:
+
+    class User < ActiveRecord::Base
+      validates :name,
+        :length => { :minimum => 2, :maximum => 24, :message => "has invalid length"},
+        :presence => {:message => "can't be blank"}
+      validates :last_name,
+        :length => { :minimum => 2, :maximum => 24, :message => "has invalid length"},
+        :presence => {:message => "can't be blank"}
+      validates :address,
+        :length => { :minimum => 5, :message => "too short length"},
+        :presence => {:message => "can't be blank"}
+      validates :email,
+        :presence => {:message => "can't be blank"},
+        :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "has wrong email format"}
+      validates :zip, :numericality => true, :length => { :minimum => 5 }
+    end
+    
+When the user tries to introduce invalid data, the error messages defined in the model will be displayed in pop-up windows using the jQuery.purr plugin.
 
 ---
 
@@ -88,6 +129,6 @@ In order to use the Rails 3 gem, just add the following line to the gemfile:
 
 ---
 
-##Authors and License
+##Authors, License and Stuff
 
-Version by [Bernat Farrero](http://bernatfarrero.com) based on the [original project](http://github.com/janv/rest_in_place/) of Jan Varwig and released under [MIT](http://www.opensource.org/licenses/mit-license.php).
+Code by [Bernat Farrero](http://bernatfarrero.com) based on the [original project](http://github.com/janv/rest_in_place/) of Jan Varwig and released under [MIT](http://www.opensource.org/licenses/mit-license.php).
