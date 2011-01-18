@@ -60,7 +60,7 @@ If not defined, it will default to *Yes* and *No* options.
 
 ### Display server validation errors
 
-If you are using a Rails application, your controller's should respond to json and js in case of error.
+If you are using a Rails application, your controller's should respond to json in case of error.
 Example:
 
     def update
@@ -69,10 +69,10 @@ Example:
       respond_to do |format|
         if @user.update_attributes(params[:user])
           format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
+          format.json { head :ok }
         else
           format.html { render :action => "edit" }
-          format.json  { render :json => @user.errors, :status => :unprocessable_entity }
-          format.js  { render :js => @user.errors, :status => :unprocessable_entity }
+          format.json { render :json => @user.errors.full_messages, :status => :unprocessable_entity }
         end
       end
     end
@@ -132,6 +132,11 @@ In order to use the Rails 3 gem, just add the following line to the gemfile:
 - To accept a handler to activate all best_in_place fields at once
 
 ---
+
+##Changelog
+
+- v.0.1.0 Initial deploy
+- v.0.1.2 Fixing errors in collections (taken value[0] instead of index) and fixing test_app controller responses
 
 ##Authors, License and Stuff
 
