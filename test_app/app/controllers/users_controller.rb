@@ -62,12 +62,10 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
-        format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
-        format.json  { render :json => @user.errors, :status => :unprocessable_entity }
-        format.js  { render :js => @user.errors, :status => :unprocessable_entity }
+        format.json  { render :json => @user.errors.full_messages, :status => :unprocessable_entity }
       end
     end
   end

@@ -12,8 +12,11 @@
 
         Usage:
 
-        Attention. Format of JSON given to select inputs is the following way.
-        [["name1", "value1"],["name2", "value2"]]
+        Attention.
+        The format of the JSON object given to the select inputs is the following:
+        [["key", "value"],["key", "value"]]
+        The format of the JSON object given to the checkbox inputs is the following:
+        ["falseValue", "trueValue"]
 */
 
 function BestInPlaceEditor(e) {
@@ -47,7 +50,8 @@ BestInPlaceEditor.prototype = {
       "error"      : function(request, error){ editor.loadErrorCallback(request, error) }
     })
     if (this.formType == "select") {
-      editor.element.html(this.values[this.getValue()][1])
+      var value = this.getValue()
+      $.each(this.values, function(i, v) { if (value == v[0]) editor.element.html(v[1])} )
     } else if (this.formType == "checkbox") {
       editor.element.html(this.getValue() ? this.values[1] : this.values[0])
     } else editor.element.html(this.getValue())
@@ -121,9 +125,7 @@ BestInPlaceEditor.prototype = {
   ajax : function(options) {
     options.url = this.url
     options.beforeSend = function(xhr){ xhr.setRequestHeader("Accept", "application/json") }
-    try { var ajaxRequest = jQuery.ajax(options) }
-    catch(e) { alert("error") }
-    return ajaxRequest
+    return jQuery.ajax(options)
   },
 
   // Handlers ////////////////////////////////////////////////////////////////
@@ -142,7 +144,7 @@ BestInPlaceEditor.prototype = {
 
     // Display all error messages from server side validation
     $.each(jQuery.parseJSON(request.responseText), function(index, value) {
-      var container = $("<span class='flash-error'></span>").html(index + ': ' + value)
+      var container = $("<span class='flash-error'></span>").html(value)
       container.purr()
     })
 
@@ -189,7 +191,7 @@ BestInPlaceEditor.forms = {
       var oldValue = this.oldValue
       $.each(this.values, function(index, value) {
         selected = (value[1] == oldValue ? "selected='selected'" : "")
-        output += "<option value='" + index + "' " + selected + ">" + value[1] + "</option>"
+        output += "<option value='" + value[0] + "' " + selected + ">" + value[1] + "</option>"
        })
       output += "</select></form>"
       this.element.html(output)
