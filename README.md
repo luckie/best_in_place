@@ -130,6 +130,7 @@ In order to use the Rails 3 gem, just add the following line to the gemfile:
 - Client Side Validation definitions
 - To accept given click handlers
 - To accept a handler to activate all best_in_place fields at once
+- Specs
 
 ---
 
@@ -137,6 +138,7 @@ In order to use the Rails 3 gem, just add the following line to the gemfile:
 
 - v.0.1.0 Initial deploy
 - v.0.1.2 Fixing errors in collections (taken value[0] instead of index) and fixing test_app controller responses
+- v.0.1.3 Bug in Rails Helper. Key wrongly considered an Integer.
 
 ##Authors, License and Stuff
 

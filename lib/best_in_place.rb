@@ -4,7 +4,7 @@ module BestInPlace
       field = field.to_s
       value = object.send(field).blank? ? "-" : object.send(field)
       if formType == :select && !selectValues.blank?
-        value = Hash[selectValues][object.send(field).to_i]
+        value = Hash[selectValues][object.send(field)]
         selectValues = selectValues.to_json
       end
       if formType == :checkbox
