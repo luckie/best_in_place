@@ -175,7 +175,7 @@ BestInPlaceEditor.forms = {
     },
 
     inputBlurHandler : function(event) {
-      event.data.editor.abort()
+      event.data.editor.update()
     },
 
     submitHandler : function(event) {
