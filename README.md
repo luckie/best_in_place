@@ -27,19 +27,24 @@ The editor works by PUTting the updated value to the server and GETting the upda
 
 ##Usage of Rails 3 Gem
 
-**best_in_place Object, Field, [formType, [SelectValues]]**
+**best_in_place Object, Field, [formType, [selectValues, [urlObject, [nilValue]]]]**
 
-The object is the object itself you are about to modify. The field (passed as symbol) is the represented attribute of the Object.
-You can add the formType [:input, :textarea, :select, :checkbox] or it defaults to :input. In case you chose :select, you must specify the 
-collection of values it can take. In case you use :checkbox, you can specify the two possible boolean values.
+The *Object* parameter represents the object itself you are about to modify. The *field* (passed as symbol) is the attribute of the Object 
+you are going to display/edit. You can add the *formType* [:input, :textarea, :select, :checkbox] or it defaults to :input. In case you chose 
+:select, you must specify the collection of values it takes through the *selectValues* param. In case you use :checkbox, you can user the parameter 
+selectValues to specify the two possible boolean values. If the Object url cannot be obtained directly from the Object, you can pass the parameter 
+*urlObject* the same way you pass any url in Rails. The last parameter *nilValue* allows you to customize the null value, in case the user deletes 
+the contents. By default it will display *"-"*.
 
-If created a [test_app](https://github.com/bernat/best_in_place/tree/master/test_app) and a running demo in heroku to test the features.
+I created a [test_app](https://github.com/bernat/best_in_place/tree/master/test_app) and a running demo in heroku to test the features.
 
 Examples (code placed in the views):
 
 ### Input
 
     <%= best_in_place @user, :name, :input %>
+
+    <%= best_in_place @user, :name, :input, nil, nil, "Click me to add content!" %>
 
 ### Textarea
 
