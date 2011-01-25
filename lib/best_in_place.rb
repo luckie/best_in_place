@@ -16,9 +16,9 @@ module BestInPlace
         selectValues = selectValues.to_json
       end
       out = "<span class='best_in_place'"
-      out += " id='best_in_place_" + object.class.to_s.underscore + "_" + field.to_s + "'"
-      out += " data-url='" + (urlObject.blank? ? url_for(object).to_s : url_for(urlObject)) + "'"
-      out += " data-object='" + object.class.to_s.underscore + "'"
+      out += " id='best_in_place_" + object.class.to_s.gsub("::", "_").underscore + "_" + field.to_s + "'"
+      out += " data-url='" + (urlObject.blank? ? url_for(object) : url_for(urlObject)) + "'"
+      out += " data-object='" + object.class.to_s.gsub("::", "_").underscore + "'"
       out += " data-selectValues='" + selectValues + "'" if !selectValues.blank?
       out += " data-attribute='" + field + "'"
       out += " data-formType='" + formType.to_s + "'>"
