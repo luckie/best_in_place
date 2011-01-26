@@ -1,12 +1,13 @@
 <p id="notice"><%= notice %></p>
 <div id="user_account">
   <h1>User details</h1>
-  <p>Click to edit</p>
+  <%= link_to "Go back to USERS", users_path %>
+  <p style="margin-left:48em">Click to edit</p>
   <table>
     <tr>
-      <td>Name</td>
+      <td>Name <a id="editme" href="#">(edit me)</a></td>
       <td>
-        <%= best_in_place @user, :name, :input %>
+        <%= best_in_place @user, :name, :type => :input, :activator => "#editme" %>
       </td>
     </tr>
     <tr>
@@ -36,22 +37,32 @@
     <tr>
       <td>Country</td>
       <td>
-          <%= best_in_place @user, :country, :select, @countries %>
+          <%= best_in_place @user, :country, {:type => :select, :collection => @countries} %>
+          <!-- <%= @countries.inspect %> -->
       </td>
     </tr>
     <tr>
       <td>Receive newsletter?</td>
       <td>
-        <%= best_in_place @user, :receive_email, :checkbox, ["No thanks", "Yes of course"] %>
+        <%= best_in_place @user, :receive_email, {:type => :checkbox, :collection => ["No thanks", "Yes of course"]} %>
       </td>
     </tr>
     <tr>
       <td>User description</td>
       <td>
-        <%= best_in_place @user, :description, :textarea %>
+        <%= best_in_place @user, :description, :type => :textarea %>
       </td>
   </table>
-
-  <%= link_to "Users list", users_path %>
+  <br />
+  <hr />
+  <p>Try the <b>features of Best In Place</b>:</p>
+  <ul>
+  <li>Try giving wrong email values or too short address, inputs to see server errors.</li>
+  <li>Click on newsletter to change a boolean value</li>
+  <li>Click on country to change the value in a collection of values</li>
+  <li>Use the external handler to change the value of the name</li>
+  <li>Try making changes inside inputs or textareas and then press the ESC key to recover the old value</li>
+  </ul>
+  <p>More information on <a href="http://github.com/bernat/best_in_place">github</a> or <a href="http://blog.bernatfarrero.com/in-place-editing-with-javascript-jquery-and-rails-3/">bernatfarrero.com</a>.</p>
 
 </div>

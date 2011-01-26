@@ -25,7 +25,7 @@ input[type=checkbox] {
 }
 textarea {
   height:15em;
-  width: 30em;
+  width: 95%;
 }
 .best_in_place {
   padding: .1m;

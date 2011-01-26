@@ -23,7 +23,7 @@ function BestInPlaceEditor(e) {
   this.element = jQuery(e)
   this.initOptions()
   this.bindForm()
-  this.activator.bind('click', {editor: this}, this.clickHandler)
+  $(this.activator).bind('click', {editor: this}, this.clickHandler)
 }
 
 BestInPlaceEditor.prototype = {
@@ -32,12 +32,13 @@ BestInPlaceEditor.prototype = {
   activate : function() {
 		var elem = this.element.html()
     this.oldValue = elem
-    this.activator.unbind("click", this.clickHandler)
+    $(this.activator).unbind("click", this.clickHandler)
     this.activateForm()
   },
 
   abort : function() {
-    this.element.html(this.oldValue).bind('click', {editor: this}, this.clickHandler)
+    this.element.html(this.oldValue)
+    $(this.activator).bind('click', {editor: this}, this.clickHandler)
   },
 
   update : function() {
@@ -68,8 +69,8 @@ BestInPlaceEditor.prototype = {
     var self = this
     self.element.parents().each(function(){
       self.url           = self.url           || jQuery(this).attr("data-url")
-      self.selectValues  = self.selectValues  || jQuery(this).attr("data-selectValues")
-      self.formType      = self.formType      || jQuery(this).attr("data-formType")
+      self.collection    = self.collection    || jQuery(this).attr("data-collection")
+      self.formType      = self.formType      || jQuery(this).attr("data-type")
       self.objectName    = self.objectName    || jQuery(this).attr("data-object")
       self.attributeName = self.attributeName || jQuery(this).attr("data-attribute")
     })
@@ -83,15 +84,15 @@ BestInPlaceEditor.prototype = {
 
     // Load own attributes (overrides all others)
     self.url           = self.element.attr("data-url")          || self.url      || document.location.pathname
-    self.selectValues  = self.element.attr("data-selectValues") || self.selectValues
-    self.formType      = self.element.attr("data-formType")     || self.formtype || "input"
+    self.collection    = self.element.attr("data-collection")   || self.collection
+    self.formType      = self.element.attr("data-type")         || self.formtype || "input"
     self.objectName    = self.element.attr("data-object")       || self.objectName
     self.attributeName = self.element.attr("data-attribute")    || self.attributeName
     self.activator     = self.element.attr("data-activator")    || self.element
 
-    if ((self.formType == "select" || self.formType == "checkbox") && self.selectValues != null)
+    if ((self.formType == "select" || self.formType == "checkbox") && self.collection != null)
     {
-      self.values = jQuery.parseJSON(self.selectValues)
+      self.values = jQuery.parseJSON(self.collection)
     }
   },
 
@@ -136,7 +137,7 @@ BestInPlaceEditor.prototype = {
     this.element.html(data[this.objectName])
 
 		// Binding back after being clicked
-    this.element.bind('click', {editor: this}, this.clickHandler)
+    $(this.activator).bind('click', {editor: this}, this.clickHandler)
   },
 
   loadErrorCallback : function(request, error) {
@@ -149,7 +150,7 @@ BestInPlaceEditor.prototype = {
     })
 
 		// Binding back after being clicked
-    this.element.bind('click', {editor: this}, this.clickHandler)
+    $(this.activator).bind('click', {editor: this}, this.clickHandler)
   },
 
   clickHandler : function(event) {
@@ -164,10 +165,9 @@ BestInPlaceEditor.forms = {
       var form = '<form class="form_in_place" action="javascript:void(0)" style="display:inline;"><input type="text" value="' + this.sanitize(this.oldValue) + '"></form>'
       this.element.html(form)
       this.element.find('input')[0].select()
-      this.element.find("form")
-        .bind('submit', {editor: this}, BestInPlaceEditor.forms.input.submitHandler)
-      this.element.find("input")
-        .bind('blur',   {editor: this}, BestInPlaceEditor.forms.input.inputBlurHandler)
+      this.element.find("form").bind('submit', {editor: this}, BestInPlaceEditor.forms.input.submitHandler)
+      this.element.find("input").bind('blur',   {editor: this}, BestInPlaceEditor.forms.input.inputBlurHandler)
+      this.element.find("input").bind('keyup', {editor: this}, BestInPlaceEditor.forms.input.keyupHandler)
     },
 
     getValue :  function() {
@@ -180,7 +180,10 @@ BestInPlaceEditor.forms = {
 
     submitHandler : function(event) {
       event.data.editor.update()
-      return false
+    },
+
+    keyupHandler : function(event) {
+      if (event.keyCode == 27) event.data.editor.abort()
     }
   },
 
@@ -204,7 +207,7 @@ BestInPlaceEditor.forms = {
 
     blurHandler : function(event) {
       event.data.editor.update()
-    }
+    },
   },
 
   "checkbox" : {
@@ -225,6 +228,7 @@ BestInPlaceEditor.forms = {
       this.element.html('<form action="javascript:void(0)" style="display:inline;"><textarea>' + this.sanitize(this.oldValue) + '</textarea></form>')
       this.element.find('textarea')[0].select()
       this.element.find("textarea").bind('blur', {editor: this}, BestInPlaceEditor.forms.textarea.blurHandler)
+      this.element.find("textarea").bind('keyup', {editor: this}, BestInPlaceEditor.forms.textarea.keyupHandler)
     },
 
     getValue :  function() {
@@ -233,6 +237,10 @@ BestInPlaceEditor.forms = {
 
     blurHandler : function(event) {
       event.data.editor.update()
+    },
+
+    keyupHandler : function(event) {
+      if (event.keyCode == 27) event.data.editor.abort()
     }
 
   }

@@ -19,48 +19,60 @@ The editor works by PUTting the updated value to the server and GETting the upda
 - Compatible with text **inputs**
 - Compatible with **textarea**
 - Compatible with **select** dropdown with custom collections
-- Compatible with custom boolean values (like **checkboxes**)
+- Compatible with custom boolean values (same usage of **checkboxes**)
 - Sanitize HTML and trim spaces of user's input
 - Displays server-side **validation** errors
+- Allows external activator
+- ESC key destroys changes
 
 ---
 
 ##Usage of Rails 3 Gem
 
-**best_in_place Object, Field, [formType, [selectValues, [urlObject, [nilValue]]]]**
+**best_in_place object, field, OPTIONS**
 
-The *Object* parameter represents the object itself you are about to modify. The *field* (passed as symbol) is the attribute of the Object 
-you are going to display/edit. You can add the *formType* [:input, :textarea, :select, :checkbox] or it defaults to :input. In case you chose 
-:select, you must specify the collection of values it takes through the *selectValues* param. In case you use :checkbox, you can user the parameter 
-selectValues to specify the two possible boolean values. If the Object url cannot be obtained directly from the Object, you can pass the parameter 
-*urlObject* the same way you pass any url in Rails. The last parameter *nilValue* allows you to customize the null value, in case the user deletes 
-the contents. By default it will display *"-"*.
+Params:
+
+- **object** (Mandatory): The Object parameter represents the object itself you are about to modify
+- **field** (Mandatory): The field (passed as symbol) is the attribute of the Object you are going to display/edit.
+
+Options:
+
+- **:type** It can be only [:input, :textarea, :select, :checkbox] or if undefined it defaults to :input.
+- **:collection**: In case you are using the :select type then you must specify the collection of values it takes. In case you are
+  using the :checkbox type you can specify the two values it can take, or otherwise they will default to Yes and No.
+- **:path**: URL to which the updating action will be sent. If not defined it defaults to the :object path.
+- **:nil**: The nil param defines the content displayed in case no value is defined for that field. It can be something like "click me to edit".
+  If not defined it will show *"-"*.
+- **:activator**: Is the DOM object that can activate the field. If not defined the user will making editable by clicking on it.
+
 
 I created a [test_app](https://github.com/bernat/best_in_place/tree/master/test_app) and a running demo in heroku to test the features.
 
-Examples (code placed in the views):
+Examples (code in the views):
 
 ### Input
 
-    <%= best_in_place @user, :name, :input %>
+    <%= best_in_place @user, :name, :type => :input %>
 
-    <%= best_in_place @user, :name, :input, nil, nil, "Click me to add content!" %>
+    <%= best_in_place @user, :name, :type => :input, :nil => "Click me to add content!" %>
 
 ### Textarea
 
-    <%= best_in_place @user, :description, :textarea %>
+    <%= best_in_place @user, :description, :type => :textarea %>
 
 ### Select
 
-    <%= best_in_place @user, :country, :select, [[1, "Spain"], [2, "Italy"], [3, "Germany"], [4, "France"]] %>
+    <%= best_in_place @user, :country, :type => :select, :collection => [[1, "Spain"], [2, "Italy"], [3, "Germany"], [4, "France"]] %>
 
-Of course it can take an instance or global variable for the collection, just remember the structure [[key, value], [key, value],...]
+Of course it can take an instance or global variable for the collection, just remember the structure [[key, value], [key, value],...].
+The key can be a string or an integer.
 
 ### Checkbox
 
-    <%= best_in_place @user, :receive_emails, :checkbox, ["No, thanks", "Yes, of course!"] %>
+    <%= best_in_place @user, :receive_emails, :type => :checkbox, :collection => ["No, thanks", "Yes, of course!"] %>
 
-The first value is always the negative boolean value and the second the positive [false, true]. 
+The first value is always the negative boolean value and the second the positive. Structure: ["false value", "true value"].
 If not defined, it will default to *Yes* and *No* options.
 
 ### Display server validation errors
@@ -99,7 +111,7 @@ At the same time, you must define the restrictions, validations and error messag
         :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "has wrong email format"}
       validates :zip, :numericality => true, :length => { :minimum => 5 }
     end
-    
+
 When the user tries to introduce invalid data, the error messages defined in the model will be displayed in pop-up windows using the jQuery.purr plugin.
 
 ---
@@ -113,7 +125,8 @@ in the following order:
 - jquery.purr.js
 - **best_in_place.js**
 
-The last one you can copy it (and keeping up to date to the last version) by running the following generator in your application's root:
+The last one you can copy it (and keeping up to date to the last version) by running the following generator in your application's root.
+Remember to do it every time you update the gem (or you will see no change).
 
     rails g best_in_place:setup
 
@@ -133,9 +146,8 @@ In order to use the Rails 3 gem, just add the following line to the gemfile:
 ##TODO
 
 - Client Side Validation definitions
-- To accept given click handlers
-- To accept a handler to activate all best_in_place fields at once
-- Specs
+- Accepting more than one handler to activate best_in_place fields
+- Specs *(sacrilege!!)*
 
 ---
 
@@ -145,7 +157,12 @@ In order to use the Rails 3 gem, just add the following line to the gemfile:
 - v.0.1.2 Fixing errors in collections (taken value[0] instead of index) and fixing test_app controller responses
 - v.0.1.3 Bug in Rails Helper. Key wrongly considered an Integer.
 - v.0.1.4 Adding two new parameters for further customization urlObject and nilValue and making input update on blur.
+- v.0.1.5 **Attention: this release is not backwards compatible**. Changing params from list to option hash, helper's refactoring,
+  fixing bug with objects inside namespaces, adding feature for passing an external activator handler as param. Adding feature
+  of key ESCAPE for destroying changes before they are made permanent (in inputs and textarea).
 
 ##Authors, License and Stuff
 
-Code by [Bernat Farrero](http://bernatfarrero.com) based on the [original project](http://github.com/janv/rest_in_place/) of Jan Varwig and released under [MIT](http://www.opensource.org/licenses/mit-license.php).
+Code by [Bernat Farrero](http://bernatfarrero.com) (based on the [original project](http://github.com/janv/rest_in_place/) of Jan Varwig) and released under [MIT](http://www.opensource.org/licenses/mit-license.php).
+
+Many thanks to the contributors: Specially [Roger Campos](http://github.com/rogercampos)

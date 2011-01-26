@@ -1,3 +1,9 @@
+PATH
+  remote: ..
+  specs:
+    best_in_place (0.1.5)
+      rails (~> 3.0.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -30,8 +36,6 @@ GEM
     activesupport (3.0.0)
     arel (1.0.1)
       activesupport (~> 3.0.0)
-    best_in_place (0.1.1)
-      rails (~> 3.0.0)
     builder (2.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
@@ -71,6 +75,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  best_in_place
+  best_in_place!
   rails (= 3.0.0)
   sqlite3-ruby
