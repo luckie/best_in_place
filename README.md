@@ -45,6 +45,7 @@ Options:
 - **:nil**: The nil param defines the content displayed in case no value is defined for that field. It can be something like "click me to edit".
   If not defined it will show *"-"*.
 - **:activator**: Is the DOM object that can activate the field. If not defined the user will making editable by clicking on it.
+- **:sanitize**: True by default. If set to false the input/textarea will accept html tags.
 
 
 I created a [test_app](https://github.com/bernat/best_in_place/tree/master/test_app) and a running demo in heroku to test the features.
@@ -160,6 +161,7 @@ In order to use the Rails 3 gem, just add the following line to the gemfile:
 - v.0.1.5 **Attention: this release is not backwards compatible**. Changing params from list to option hash, helper's refactoring,
   fixing bug with objects inside namespaces, adding feature for passing an external activator handler as param. Adding feature
   of key ESCAPE for destroying changes before they are made permanent (in inputs and textarea).
+- v.0.1.6-0.1.7 Avoiding request when the input is not modified and allowing the user to not sanitize input data.
 
 ##Authors, License and Stuff
 
