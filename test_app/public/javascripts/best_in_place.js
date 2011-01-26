@@ -43,6 +43,12 @@ BestInPlaceEditor.prototype = {
 
   update : function() {
     var editor = this
+    if (this.formType in {"input":1, "textarea":1} && this.getValue() == this.oldValue)
+    { // Avoid request if no change is made
+      editor.element.html(this.getValue())
+      $(this.activator).bind('click', {editor: this}, this.clickHandler)
+      return true
+    }
     editor.ajax({
       "type"       : "post",
       "dataType"   : "text",
@@ -74,6 +80,7 @@ BestInPlaceEditor.prototype = {
       self.objectName    = self.objectName    || jQuery(this).attr("data-object")
       self.attributeName = self.attributeName || jQuery(this).attr("data-attribute")
     })
+
     // Try Rails-id based if parents did not explicitly supply something
     self.element.parents().each(function(){
       var res
@@ -83,12 +90,16 @@ BestInPlaceEditor.prototype = {
     })
 
     // Load own attributes (overrides all others)
-    self.url           = self.element.attr("data-url")          || self.url      || document.location.pathname
-    self.collection    = self.element.attr("data-collection")   || self.collection
-    self.formType      = self.element.attr("data-type")         || self.formtype || "input"
-    self.objectName    = self.element.attr("data-object")       || self.objectName
-    self.attributeName = self.element.attr("data-attribute")    || self.attributeName
-    self.activator     = self.element.attr("data-activator")    || self.element
+    self.url           = self.element.attr("data-url")                || self.url      || document.location.pathname
+    self.collection    = self.element.attr("data-collection")         || self.collection
+    self.formType      = self.element.attr("data-type")               || self.formtype || "input"
+    self.objectName    = self.element.attr("data-object")             || self.objectName
+    self.attributeName = self.element.attr("data-attribute")          || self.attributeName
+    self.activator     = self.element.attr("data-activator")          || self.element
+
+    if (!self.element.attr("data-sanitize")) self.sanitize = true
+    else self.sanitize = (self.element.attr("data-sanitize") == "true")
+
 
     if ((self.formType == "select" || self.formType == "checkbox") && self.collection != null)
     {
@@ -106,10 +117,14 @@ BestInPlaceEditor.prototype = {
   },
 
   // Trim and Strips HTML from text
-  sanitize : function(s) {
-     var tmp = document.createElement("DIV")
-     tmp.innerHTML = s
-     return jQuery.trim(tmp.textContent||tmp.innerText)
+  sanitizeValue : function(s) {
+    if (this.sanitize)
+    {
+      var tmp = document.createElement("DIV")
+      tmp.innerHTML = s
+      s = tmp.textContent || tmp.innerText
+    }
+   return jQuery.trim(s)
   },
 
   /* Generate the data sent in the POST request */
@@ -162,7 +177,7 @@ BestInPlaceEditor.prototype = {
 BestInPlaceEditor.forms = {
   "input" : {
     activateForm : function() {
-      var form = '<form class="form_in_place" action="javascript:void(0)" style="display:inline;"><input type="text" value="' + this.sanitize(this.oldValue) + '"></form>'
+      var form = '<form class="form_in_place" action="javascript:void(0)" style="display:inline;"><input type="text" value="' + this.sanitizeValue(this.oldValue) + '"></form>'
       this.element.html(form)
       this.element.find('input')[0].select()
       this.element.find("form").bind('submit', {editor: this}, BestInPlaceEditor.forms.input.submitHandler)
@@ -171,7 +186,7 @@ BestInPlaceEditor.forms = {
     },
 
     getValue :  function() {
-      return this.sanitize(this.element.find("input").val())
+      return this.sanitizeValue(this.element.find("input").val())
     },
 
     inputBlurHandler : function(event) {
@@ -202,7 +217,7 @@ BestInPlaceEditor.forms = {
     },
 
     getValue : function() {
-      return this.sanitize(this.element.find("select").val())
+      return this.sanitizeValue(this.element.find("select").val())
     },
 
     blurHandler : function(event) {
@@ -225,14 +240,14 @@ BestInPlaceEditor.forms = {
 
   "textarea" : {
     activateForm : function() {
-      this.element.html('<form action="javascript:void(0)" style="display:inline;"><textarea>' + this.sanitize(this.oldValue) + '</textarea></form>')
+      this.element.html('<form action="javascript:void(0)" style="display:inline;"><textarea>' + this.sanitizeValue(this.oldValue) + '</textarea></form>')
       this.element.find('textarea')[0].select()
       this.element.find("textarea").bind('blur', {editor: this}, BestInPlaceEditor.forms.textarea.blurHandler)
       this.element.find("textarea").bind('keyup', {editor: this}, BestInPlaceEditor.forms.textarea.keyupHandler)
     },
 
     getValue :  function() {
-      return this.sanitize(this.element.find("textarea").val())
+      return this.sanitizeValue(this.element.find("textarea").val())
     },
 
     blurHandler : function(event) {
