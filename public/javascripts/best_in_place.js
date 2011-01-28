@@ -259,8 +259,11 @@ BestInPlaceEditor.forms = {
 
   "textarea" : {
     activateForm : function() {
+      width = this.element.css('width')
+      height = this.element.css('height')
       this.element.html('<form action="javascript:void(0)" style="display:inline;"><textarea>' + this.sanitizeValue(this.oldValue) + '</textarea></form>')
-      this.element.find('textarea')[0].select()
+      jQuery(this.element.find("textarea")[0]).css({ 'width': width, 'height': height })
+      this.element.find("textarea")[0].focus()
       this.element.find("textarea").bind('blur', {editor: this}, BestInPlaceEditor.forms.textarea.blurHandler)
       this.element.find("textarea").bind('keyup', {editor: this}, BestInPlaceEditor.forms.textarea.keyupHandler)
     },
