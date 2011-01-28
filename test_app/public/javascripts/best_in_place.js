@@ -23,6 +23,7 @@ function BestInPlaceEditor(e) {
   this.element = jQuery(e)
   this.initOptions()
   this.bindForm()
+  this.initNil()
   $(this.activator).bind('click', {editor: this}, this.clickHandler)
 }
 
@@ -30,14 +31,15 @@ BestInPlaceEditor.prototype = {
   // Public Interface Functions //////////////////////////////////////////////
 
   activate : function() {
-		var elem = this.element.html()
+		var elem = this.isNil ? "" : this.element.html()
     this.oldValue = elem
     $(this.activator).unbind("click", this.clickHandler)
     this.activateForm()
   },
 
   abort : function() {
-    this.element.html(this.oldValue)
+    if (this.isNil) this.element.html(this.nil)
+    else            this.element.html(this.oldValue)
     $(this.activator).bind('click', {editor: this}, this.clickHandler)
   },
 
@@ -45,10 +47,10 @@ BestInPlaceEditor.prototype = {
     var editor = this
     if (this.formType in {"input":1, "textarea":1} && this.getValue() == this.oldValue)
     { // Avoid request if no change is made
-      editor.element.html(this.getValue())
-      $(this.activator).bind('click', {editor: this}, this.clickHandler)
+      this.abort()
       return true
     }
+    this.isNil = false;
     editor.ajax({
       "type"       : "post",
       "dataType"   : "text",
@@ -79,6 +81,7 @@ BestInPlaceEditor.prototype = {
       self.formType      = self.formType      || jQuery(this).attr("data-type")
       self.objectName    = self.objectName    || jQuery(this).attr("data-object")
       self.attributeName = self.attributeName || jQuery(this).attr("data-attribute")
+      self.nil           = self.nil           || jQuery(this).attr("data-nil")
     })
 
     // Try Rails-id based if parents did not explicitly supply something
@@ -96,6 +99,7 @@ BestInPlaceEditor.prototype = {
     self.objectName    = self.element.attr("data-object")             || self.objectName
     self.attributeName = self.element.attr("data-attribute")          || self.attributeName
     self.activator     = self.element.attr("data-activator")          || self.element
+    self.nil           = self.element.attr("data-nil")                || self.nil      || "-"
 
     if (!self.element.attr("data-sanitize")) self.sanitize = true
     else self.sanitize = (self.element.attr("data-sanitize") == "true")
@@ -110,6 +114,14 @@ BestInPlaceEditor.prototype = {
   bindForm : function() {
     this.activateForm = BestInPlaceEditor.forms[this.formType].activateForm
     this.getValue     = BestInPlaceEditor.forms[this.formType].getValue
+  },
+
+  initNil: function() {
+    if (this.element.html() == "")
+    {
+      this.isNil = true
+      this.element.html(this.nil)
+    }
   },
 
   getValue : function() {
@@ -181,7 +193,7 @@ BestInPlaceEditor.forms = {
       this.element.html(form)
       this.element.find('input')[0].select()
       this.element.find("form").bind('submit', {editor: this}, BestInPlaceEditor.forms.input.submitHandler)
-      this.element.find("input").bind('blur',   {editor: this}, BestInPlaceEditor.forms.input.inputBlurHandler)
+      this.element.find("input").bind('blur',  {editor: this}, BestInPlaceEditor.forms.input.inputBlurHandler)
       this.element.find("input").bind('keyup', {editor: this}, BestInPlaceEditor.forms.input.keyupHandler)
     },
 
@@ -214,6 +226,9 @@ BestInPlaceEditor.forms = {
       output += "</select></form>"
       this.element.html(output)
       this.element.find("select").bind('change', {editor: this}, BestInPlaceEditor.forms.select.blurHandler)
+      this.element.find("select").bind('blur', {editor: this}, BestInPlaceEditor.forms.select.blurHandler)
+      this.element.find("select").bind('keyup', {editor: this}, BestInPlaceEditor.forms.select.keyupHandler)
+      this.element.find("select")[0].focus()
     },
 
     getValue : function() {
@@ -223,6 +238,10 @@ BestInPlaceEditor.forms = {
     blurHandler : function(event) {
       event.data.editor.update()
     },
+
+    keyupHandler : function(event) {
+      if (event.keyCode == 27) event.data.editor.abort()
+    }
   },
 
   "checkbox" : {

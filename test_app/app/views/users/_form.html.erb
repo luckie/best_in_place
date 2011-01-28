@@ -33,10 +33,14 @@
   </div>
   <div class="field">
     <%= f.label :country %><br />
-    <select id="user_country" name="user[country]">
-      <option value="spain">Spain</option> 
-      <option value="italy">Italy</option>
-    </select>
+    <%= 
+      f.select :country, COUNTRIES.map {|c|
+        v0 = c[0]
+        c[0] = c[1]
+        c[1] = v0
+        c
+      }
+    %>
   <div class="actions">
     <%= f.submit %>
   </div>

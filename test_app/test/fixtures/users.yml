@@ -1,17 +1,17 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  name: MyString
-  last_name: MyString
-  address: MyString
-  email: MyString
-  zip: 1
-  country: MyString
+  name: testy
+  last_name: tester
+  address: 123 main st
+  email: testytester@example.com
+  zip: 12345
+  country: 1
 
 two:
-  name: MyString
-  last_name: MyString
-  address: MyString
-  email: MyString
-  zip: 1
-  country: MyString
+  name: mystery
+  last_name: man
+  address: PO Box 0, Nowhere
+  email: misterioso@example.com
+  zip: 99999
+  country: 

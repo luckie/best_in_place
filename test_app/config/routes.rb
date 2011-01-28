@@ -1,9 +1,5 @@
 BipApp::Application.routes.draw do
-  resources :users do
-    collection do
-      get :get_countries, :as => "countries"
-    end
-  end
+  resources :users
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

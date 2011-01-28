@@ -81,9 +81,4 @@ class UsersController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
-  def get_countries    
-    @countries = { "spain", "Spain", "italy", "Italy", "germany", "Germany", "france", "France" }.to_json
-    render :json => @countries
-  end
 end

@@ -3,9 +3,8 @@ module BestInPlace
     def best_in_place(object, field, opts = {})
       opts[:type] ||= :input
       opts[:collection] ||= []
-      opts[:nil] ||= "-"
       field = field.to_s
-      value = object.send(field).blank? ? opts[:nil].to_s : object.send(field)
+      value = object.send(field).blank? ? "" : object.send(field)
       collection = nil
       if opts[:type] == :select && !opts[:collection].blank?
         v = object.send(field)
@@ -28,6 +27,7 @@ module BestInPlace
       out << " data-attribute='#{field}'"
       out << " data-activator='#{opts[:activator]}'" unless opts[:activator].blank?
       out << " data-sanitize='#{!!opts[:sanitize]}'" unless opts[:sanitize].nil?
+      out << " data-nil='#{opts[:nil].to_s}'" unless opts[:nil].blank?
       out << " data-type='#{opts[:type].to_s}'>"
       out << value.to_s
       out <<  "</span>"
