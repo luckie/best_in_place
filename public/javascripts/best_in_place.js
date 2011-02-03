@@ -129,12 +129,16 @@ BestInPlaceEditor.prototype = {
 
   /* Generate the data sent in the POST request */
   requestData : function() {
-    //jq14: data as JS object, not string.
+    // To prevent xss attacks, a csrf token must be defined as a meta attribute
+    csrf_token = $('meta[name=csrf-token]').attr('content')
+		csrf_param = $('meta[name=csrf-param]').attr('content')
+
     var data = "_method=put"
-    data += "&"+this.objectName+'['+this.attributeName+']='+encodeURIComponent(this.getValue())
-    if (window.rails_authenticity_token) {
-      data += "&authenticity_token="+encodeURIComponent(window.rails_authenticity_token)
-    }
+    data += "&" + this.objectName + '[' + this.attributeName + ']=' + encodeURIComponent(this.getValue())
+
+    if (csrf_param !== undefined && csrf_token !== undefined) {
+      data += "&" + csrf_param + "=" + encodeURIComponent(csrf_token)
+		}
     return data
   },
 
