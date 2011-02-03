@@ -144,6 +144,13 @@ In order to use the Rails 3 gem, just add the following line to the gemfile:
 
 ----
 
+## Security
+
+If the script is used with the Rails Gem no html tags will be allowed unless the sanitize option is set to true, in that case only the tags [*b i u s a strong em p h1 h2 h3 h4 h5 ul li ol hr pre span img*] will be allowed. If the script is used without the gem and with frameworks other than Rails, then you should make sure you are providing the csrf authenticity params as meta tags and you should always escape undesired html tags such as script, object and so forth.
+
+    <meta name="csrf-param" content="authenticity_token"/>
+    <meta name="csrf-token" content="YOUR UNIQUE TOKEN HERE"/>
+
 ##TODO
 
 - Client Side Validation definitions
