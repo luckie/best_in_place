@@ -169,6 +169,7 @@ If the script is used with the Rails Gem no html tags will be allowed unless the
   fixing bug with objects inside namespaces, adding feature for passing an external activator handler as param. Adding feature
   of key ESCAPE for destroying changes before they are made permanent (in inputs and textarea).
 - v.0.1.6-0.1.7 Avoiding request when the input is not modified and allowing the user to not sanitize input data.
+- v.0.1.8 jslint compliant, sanitizing tags in the gem, getting right csrf params.
 
 ##Authors, License and Stuff
 
