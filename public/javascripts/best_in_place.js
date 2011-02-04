@@ -277,7 +277,15 @@ BestInPlaceEditor.forms = {
     },
 
     keyupHandler : function(event) {
-      if (event.keyCode == 27) event.data.editor.abort()
+      if (event.keyCode == 27) {
+        BestInPlaceEditor.forms.textarea.abort(event.data.editor)
+      }
+    },
+    
+    abort : function(editor) {
+      if (confirm("Are you sure you want to discard your changes?")) {
+        editor.abort()
+      }
     }
 
   }
