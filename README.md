@@ -20,10 +20,10 @@ The editor works by PUTting the updated value to the server and GETting the upda
 - Compatible with **textarea**
 - Compatible with **select** dropdown with custom collections
 - Compatible with custom boolean values (same usage of **checkboxes**)
-- Sanitize HTML and trim spaces of user's input
+- Sanitize HTML and trim spaces of user's input on user's choice
 - Displays server-side **validation** errors
 - Allows external activator
-- ESC key destroys changes
+- ESC key destroys changes (requires user confirmation)
 
 ---
 
@@ -122,7 +122,7 @@ When the user tries to introduce invalid data, the error messages defined in the
 It works by simply copying and loading the files from the folder **/public/javascripts** to your application and loading them in your layouts
 in the following order:
 
-- jquery-1.4.2.js
+- jquery-1.4.4.js
 - jquery.purr.js
 - **best_in_place.js**
 
@@ -173,6 +173,6 @@ If the script is used with the Rails Gem no html tags will be allowed unless the
 
 ##Authors, License and Stuff
 
-Code by [Bernat Farrero](http://bernatfarrero.com) (based on the [original project](http://github.com/janv/rest_in_place/) of Jan Varwig) and released under [MIT](http://www.opensource.org/licenses/mit-license.php).
+Code by [Bernat Farrero](http://bernatfarrero.com) (it was based on the [original project](http://github.com/janv/rest_in_place/) of Jan Varwig) and released under [MIT license](http://www.opensource.org/licenses/mit-license.php).
 
-Many thanks to the contributors: Specially [Roger Campos](http://github.com/rogercampos)
+Many thanks to the contributors: [Roger Campos](http://github.com/rogercampos) and [Jack Senechal](https://github.com/jacksenechal)
