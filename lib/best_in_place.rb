@@ -32,7 +32,7 @@ module BestInPlace
         out << " data-sanitize='false'>"
         out << sanitize(value.to_s, :tags => %w(b i u s a strong em p h1 h2 h3 h4 h5 ul li ol hr pre span img), :attributes => %w(id class))
       else
-        out << ">#{sanitize(value, :tags => nil, :attributes => nil)}"
+        out << ">#{sanitize(value.to_s, :tags => nil, :attributes => nil)}"
       end
       out << "</span>"
       raw out
