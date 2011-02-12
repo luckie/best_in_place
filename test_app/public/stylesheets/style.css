@@ -24,16 +24,13 @@ input[type=checkbox] {
   width: 1em;
 }
 textarea {
-  height:15em;
-  width: 95%;
+  max-height:15em;
+  min-width: 40em;
 }
 .best_in_place {
   padding: .1m;
   cursor: hand;
   cursor: pointer;
-  -moz-transition: background 0.5s linear;
-  -o-transition: background 0.5s linear;
-  -webkit-transition: background 0.5s linear;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   -o-border-radius: 5px;
@@ -62,7 +59,13 @@ textarea {
 	padding: 20px;
 	background-color: #000000;
 	color: #FFFFFF;
-	border: 2px solid #FFFFFF;
+	border: 2px solid #AAA;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -o-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  border-radius: 10px;
 }
 .purr:hover .close	{
 	position: absolute;
