@@ -24,6 +24,7 @@ The editor works by PUTting the updated value to the server and GETting the upda
 - Displays server-side **validation** errors
 - Allows external activator
 - ESC key destroys changes (requires user confirmation)
+- Autogrowing textarea
 
 ---
 
@@ -169,10 +170,10 @@ If the script is used with the Rails Gem no html tags will be allowed unless the
   fixing bug with objects inside namespaces, adding feature for passing an external activator handler as param. Adding feature
   of key ESCAPE for destroying changes before they are made permanent (in inputs and textarea).
 - v.0.1.6-0.1.7 Avoiding request when the input is not modified and allowing the user to not sanitize input data.
-- v.0.1.8 jslint compliant, sanitizing tags in the gem, getting right csrf params.
+- v.0.1.8 jslint compliant, sanitizing tags in the gem, getting right csrf params, controlling size of textarea (elastic script, for autogrowing textarea)
 
 ##Authors, License and Stuff
 
-Code by [Bernat Farrero](http://bernatfarrero.com) (it was based on the [original project](http://github.com/janv/rest_in_place/) of Jan Varwig) and released under [MIT license](http://www.opensource.org/licenses/mit-license.php).
+Code by [Bernat Farrero](http://bernatfarrero.com) from [Itnig Web Services](http://itnig.net) (it was based on the [original project](http://github.com/janv/rest_in_place/) of Jan Varwig) and released under [MIT license](http://www.opensource.org/licenses/mit-license.php).
 
 Many thanks to the contributors: [Roger Campos](http://github.com/rogercampos) and [Jack Senechal](https://github.com/jacksenechal)
