@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   # GET /users/1.xml
   def show
     @user = User.find(params[:id])
-    @countries = COUNTRIES.map
+    @countries = COUNTRIES.to_a
 
     respond_to do |format|
       format.html # show.html.erb

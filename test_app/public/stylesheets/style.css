@@ -52,14 +52,14 @@ textarea {
 /* Missatges Flotants */
 
 .purr {
-	position: fixed;
-	width: 324px;
-	top: 20px;
-	right: 15px;
-	padding: 20px;
-	background-color: #000000;
-	color: #FFFFFF;
-	border: 2px solid #AAA;
+  position: fixed;
+  width: 324px;
+  top: 20px;
+  right: 15px;
+  padding: 20px;
+  background-color: #000000;
+  color: #FFFFFF;
+  border: 2px solid #AAA;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   -o-border-radius: 10px;
@@ -67,13 +67,13 @@ textarea {
   -khtml-border-radius: 10px;
   border-radius: 10px;
 }
-.purr:hover .close	{
-	position: absolute;
-	top: 5px;
-	right: 3px;
-	display: block;
-	width: 25px;
-	height: 25px;
-	text-indent: -9999px;
-	background: url("/images/close-button.gif") no-repeat;
+.purr:hover .close  {
+  position: absolute;
+  top: 5px;
+  right: 3px;
+  display: block;
+  width: 25px;
+  height: 25px;
+  text-indent: -9999px;
+  background: url("/images/close-button.gif") no-repeat;
 }
