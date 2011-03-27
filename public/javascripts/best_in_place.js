@@ -69,7 +69,7 @@ BestInPlaceEditor.prototype = {
     } else if (this.formType == "checkbox") {
       editor.element.html(this.getValue() ? this.values[1] : this.values[0]);
     } else {
-      editor.element.html(this.getValue());
+      editor.element.html(this.getValue() != "" ? this.getValue() : this.nil));
     }
   },
 
