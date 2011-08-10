@@ -203,7 +203,7 @@ BestInPlaceEditor.forms = {
   "input" : {
     activateForm : function() {
       var output = '<form class="form_in_place" action="javascript:void(0)" style="display:inline;">';
-      output += '<input type="text" value="' + this.sanitizeValue(this.oldValue) + '"';
+      output += '<input type="text" name="'+ this.attributeName + '" value="' + this.sanitizeValue(this.oldValue) + '"';
       if (this.inner_class != null) {
         output += ' class="' + this.inner_class + '"';
       }
