@@ -47,6 +47,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    nokogiri (1.5.0)
     polyglot (0.3.2)
     rack (1.2.4)
     rack-mount (0.6.14)
@@ -97,5 +98,6 @@ PLATFORMS
 
 DEPENDENCIES
   best_in_place!
+  nokogiri (>= 1.5.0)
   rspec-rails (~> 2.7.0)
   sqlite3-ruby
