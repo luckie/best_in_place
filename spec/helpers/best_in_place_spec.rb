@@ -42,6 +42,14 @@ describe BestInPlace::BestInPlaceHelpers do
         @span.attribute("data-object").value.should == "user"
       end
 
+      it "should have no activator by default" do
+        @span.attribute("data-activator").should be_nil
+      end
+
+      it "should have no inner_class by default" do
+        @span.attribute("data-inner-class").should be_nil
+      end
+
       describe "url generation" do
         it "should have the correct default url" do
           @user.save!
@@ -73,6 +81,10 @@ describe BestInPlace::BestInPlaceHelpers do
       end
 
       describe "nil option" do
+        it "should have no nil data by default" do
+          @span.attribute("data-nil").should be_nil
+        end
+
         it "should show '' if the object responds with nil for the passed attribute" do
           @user.stub!(:name).and_return(nil)
           nk = Nokogiri::HTML.parse(helper.best_in_place @user, :name)
@@ -86,6 +98,20 @@ describe BestInPlace::BestInPlaceHelpers do
           span = nk.css("span")
           span.text.should == ""
         end
+      end
+
+      it "should have the given inner_class" do
+        out = helper.best_in_place @user, :name, :inner_class => "awesome"
+        nk = Nokogiri::HTML.parse(out)
+        span = nk.css("span")
+        span.attribute("data-inner-class").value.should == "awesome"
+      end
+
+      it "should have the given activator" do
+        out = helper.best_in_place @user, :name, :activator => "awesome"
+        nk = Nokogiri::HTML.parse(out)
+        span = nk.css("span")
+        span.attribute("data-activator").value.should == "awesome"
       end
     end
 
