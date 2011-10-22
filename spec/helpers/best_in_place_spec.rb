@@ -114,4 +114,11 @@ describe BestInPlace::BestInPlaceHelpers do
     end
 
   end
+
+  describe "JS behaviour", :js => true, :pending => true do
+    describe "nil option" do
+      it "should render the default '-' string when the field is empty"
+      it "should render the passed nil value if the field is empty"
+    end
+  end
 end
