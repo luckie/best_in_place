@@ -136,6 +136,38 @@ describe BestInPlace::BestInPlaceHelpers do
     end
 
     context "with a boolean attribute" do
+      before do
+        nk = Nokogiri::HTML.parse(helper.best_in_place @user, :receive_email, :type => :checkbox)
+        @span = nk.css("span")
+      end
+
+      it "should have a checkbox data-type" do
+        @span.attribute("data-type").value.should == "checkbox"
+      end
+
+      it "should have the default data-collection" do
+        data = ["No", "Yes"]
+        @span.attribute("data-collection").value.should == data.to_json
+      end
+
+      it "should render the current option as No" do
+        @span.text.should == "No"
+      end
+
+      describe "custom collection" do
+        before do
+          nk = Nokogiri::HTML.parse(helper.best_in_place @user, :receive_email, :type => :checkbox, :collection => ["Nain", "Da"])
+          @span = nk.css("span")
+        end
+
+        it "should show the message with the custom values" do
+          @span.text.should == "Nain"
+        end
+
+        it "should render the proper data-collection" do
+          @span.attribute("data-collection").value.should == ["Nain", "Da"].to_json
+        end
+      end
 
     end
 
