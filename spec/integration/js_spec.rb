@@ -31,5 +31,36 @@ describe "JS behaviour", :js => true do
       end
     end
   end
+
+  it "should be able to use the bip_text to update a text field" do
+    @user.save!
+    visit user_path(@user)
+    within("#email") do
+      page.should have_content("lucianapoli@gmail.com")
+    end
+
+    bip_text :user, :email, "new@email.com"
+
+    visit user_path(@user)
+    within("#email") do
+      page.should have_content("new@email.com")
+    end
+  end
+
+  it "should be able to use bil_select to change a select field" do
+    @user.save!
+    visit user_path(@user)
+    within("#country") do
+      page.should have_content("Italy")
+    end
+
+    bip_select :user, :country, "France"
+
+    visit user_path(@user)
+    within("#country") do
+      page.should have_content("France")
+    end
+
+  end
 end
 
