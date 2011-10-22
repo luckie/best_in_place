@@ -38,16 +38,40 @@ describe BestInPlace::BestInPlaceHelpers do
         @span.attribute("data-attribute").value.should == "name"
       end
 
-      it "should have the correct default url" do
-        @user.save!
-        nk = Nokogiri::HTML.parse(helper.best_in_place @user, :name)
-        span = nk.css("span")
-        span.attribute("data-url").value.should == "/users/#{@user.id}"
-      end
-
       it "should have the correct data-object" do
         @span.attribute("data-object").value.should == "user"
       end
+
+      describe "url generation" do
+        it "should have the correct default url" do
+          @user.save!
+          nk = Nokogiri::HTML.parse(helper.best_in_place @user, :name)
+          span = nk.css("span")
+          span.attribute("data-url").value.should == "/users/#{@user.id}"
+        end
+
+        it "should use the custom url specified in string format" do
+          out = helper.best_in_place @user, :name, :path => "/custom/path"
+          nk = Nokogiri::HTML.parse(out)
+          span = nk.css("span")
+          span.attribute("data-url").value.should == "/custom/path"
+        end
+
+        it "should use the path given in a named_path format" do
+          out = helper.best_in_place @user, :name, :path => helper.users_path
+          nk = Nokogiri::HTML.parse(out)
+          span = nk.css("span")
+          span.attribute("data-url").value.should == "/users"
+        end
+
+        it "should use the given path in a hash format" do
+          out = helper.best_in_place @user, :name, :path => {:controller => :users, :action => :edit, :id => 23}
+          nk = Nokogiri::HTML.parse(out)
+          span = nk.css("span")
+          span.attribute("data-url").value.should == "/users/23/edit"
+        end
+      end
+
     end
 
 
