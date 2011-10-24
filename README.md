@@ -1,5 +1,6 @@
 # Best In Place
 **The Unobtrusive in Place editing solution**
+[![Build Status](https://secure.travis-ci.org/bernat/best_in_place.png)](http://travis-ci.org/bernat/best_in_place)
 
 
 ##Description
