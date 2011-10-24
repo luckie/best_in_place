@@ -9,7 +9,7 @@ $(document).ready(function() {
 function inspect(obj, maxLevels, level)
 {
   var str = '', type, msg;
-1
+
     // Start Input Validations
     // Don't touch, we start iterating at level zero
     if(level == null)  level = 0;
