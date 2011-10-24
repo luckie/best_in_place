@@ -24,6 +24,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def double_init
+    @user = User.find(params[:id])
+    @countries = COUNTRIES.to_a
+  end
+
   # GET /users/new
   # GET /users/new.xml
   def new

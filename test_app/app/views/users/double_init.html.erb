@@ -1,0 +1,65 @@
+<p>This is a page that initializes best in place two times with testing purposes</p>
+<div id="user_account">
+  <h1>User details</h1>
+  <%= link_to "Go back to USERS", users_path %>
+  <p style="margin-left:48em">Click to edit</p>
+  <table>
+    <tr>
+      <td>Name <a id="editme" href="#">(edit me)</a></td>
+      <td id="name">
+        <%= best_in_place @user, :name, :type => :input, :activator => "#editme" %>
+      </td>
+    </tr>
+    <tr>
+      <td>Last Name</td>
+      <td id="last_name">
+        <%= best_in_place @user, :last_name, :nil => "Nothing to show", :path => test_respond_with_user_path(@user) %>
+      </td>
+    </tr>
+    <tr>
+      <td>Email</td>
+      <td id="email">
+        <%= best_in_place @user, :email %>
+      </td>
+    </tr>
+    <tr>
+      <td>Address</td>
+      <td id="address">
+        <%= best_in_place @user, :address %>
+      </td>
+    </tr>
+    <tr>
+      <td>ZIP</td>
+      <td id="zip">
+        <%= best_in_place @user, :zip %>
+      </td>
+    </tr>
+    <tr>
+      <td>Country</td>
+      <td id="country">
+        <%= best_in_place @user, :country, :type => :select, :collection => @countries %>
+      </td>
+    </tr>
+    <tr>
+      <td>Receive newsletter?</td>
+      <td id="receive_email">
+        <%= best_in_place @user, :receive_email, :type => :checkbox, :collection => ["No thanks", "Yes of course"] %>
+      </td>
+    </tr>
+    <tr>
+      <td>User description</td>
+      <td id="description">
+        <%= best_in_place @user, :description, :type => :textarea, :sanitize => false %>
+      </td>
+  </table>
+  <br />
+  <hr />
+
+</div>
+
+<%= javascript_tag do %>
+  $(document).ready(function() {
+    /* Activating Best In Place */
+    jQuery(".best_in_place").best_in_place();
+  });
+<% end %>
