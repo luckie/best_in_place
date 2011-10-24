@@ -1,3 +1,6 @@
+# encoding: utf-8
+require "spec_helper"
+
 describe "JS behaviour", :js => true do
   before do
     @user = User.new :name => "Lucia",
