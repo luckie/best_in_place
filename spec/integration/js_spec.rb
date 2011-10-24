@@ -76,7 +76,17 @@ describe "JS behaviour", :js => true do
     within("#receive_email") do
       page.should have_content("Yes of course")
     end
+  end
 
+  it "should show validation errors" do
+    @user.save!
+    visit user_path(@user)
+
+    bip_text :user, :address, ""
+    page.should have_content("Address can't be blank")
+    within("#address") do
+      page.should have_content("Via Roma 99")
+    end
   end
 end
 
