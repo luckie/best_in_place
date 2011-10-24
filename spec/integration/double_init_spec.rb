@@ -1,7 +1,7 @@
 # encoding: utf-8
 require "spec_helper"
 
-describe "Double initialization bug", :js => true do
+describe "Double initialization bug", :js => true, :pending => true do
   before do
     @user = User.new :name => "Lucia",
       :last_name => "Napoli",
