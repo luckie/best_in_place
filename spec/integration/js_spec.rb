@@ -47,6 +47,28 @@ describe "JS behaviour", :js => true do
     end
   end
 
+  it "should be able to update a field two consecutive times" do
+    @user.save!
+    visit user_path(@user)
+
+    bip_text :user, :email, "new@email.com"
+
+    within("#email") do
+      page.should have_content("new@email.com")
+    end
+
+    bip_text :user, :email, "new_two@email.com"
+
+    within("#email") do
+      page.should have_content("new_two@email.com")
+    end
+
+    visit user_path(@user)
+    within("#email") do
+      page.should have_content("new_two@email.com")
+    end
+  end
+
   it "should be able to use bil_select to change a select field" do
     @user.save!
     visit user_path(@user)
