@@ -60,6 +60,22 @@ describe "JS behaviour", :js => true do
     within("#country") do
       page.should have_content("France")
     end
+  end
+
+  it "should be able to use bip_bool to change a boolean value" do
+    @user.save!
+    visit user_path(@user)
+
+    within("#receive_email") do
+      page.should have_content("No thanks")
+    end
+
+    bip_bool :user, :receive_email
+
+    visit user_path(@user)
+    within("#receive_email") do
+      page.should have_content("Yes of course")
+    end
 
   end
 end
