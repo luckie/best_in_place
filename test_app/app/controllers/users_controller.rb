@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  respond_to :html, :json
+
   # GET /users
   # GET /users.xml
   def index
@@ -80,5 +82,12 @@ class UsersController < ApplicationController
       format.html { redirect_to(users_url) }
       format.xml  { head :ok }
     end
+  end
+
+  def test_respond_with
+    @user = User.find(params[:id])
+
+    @user.update_attributes(params[:user])
+    respond_with(@user)
   end
 end

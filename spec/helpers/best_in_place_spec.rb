@@ -191,7 +191,7 @@ describe BestInPlace::BestInPlaceHelpers do
       end
     end
   end
-  
+
   describe "#best_in_place_if" do
     context "when the parameters are valid" do
       before(:each) do
