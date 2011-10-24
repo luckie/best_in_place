@@ -1,0 +1,11 @@
+rvm:
+  - 1.8.7
+  - ree
+  - 1.9.2
+  - 1.9.3
+
+env: "RAILS_ENV=test DISPLAY=:99.0"
+
+before_script:
+  - "sh -c 'cd test_app && bundle && bundle exec rake db:drop db:migrate'"
+  - "sh -e /etc/init.d/xvfb start"
