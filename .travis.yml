@@ -9,3 +9,8 @@ env: "RAILS_ENV=test DISPLAY=:99.0"
 before_script:
   - "sh -c 'cd test_app && bundle && bundle exec rake db:drop db:migrate'"
   - "sh -e /etc/init.d/xvfb start"
+
+branches:
+  only:
+    - master
+    - rails-3.0
