@@ -21,7 +21,7 @@ describe "Double initialization bug", :js => true do
       page.should have_content("No thanks")
     end
 
-    bip_bool :user, :receive_email
+    bip_bool @user, :receive_email
 
     visit double_init_user_path(@user)
     within("#receive_email") do

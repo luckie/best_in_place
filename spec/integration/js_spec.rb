@@ -35,14 +35,14 @@ describe "JS behaviour", :js => true do
     end
   end
 
-  it "should be able to use the bip_text to update a text field" do
+  it "should be able to use bip_text to update a text field" do
     @user.save!
     visit user_path(@user)
     within("#email") do
       page.should have_content("lucianapoli@gmail.com")
     end
 
-    bip_text :user, :email, "new@email.com"
+    bip_text @user, :email, "new@email.com"
 
     visit user_path(@user)
     within("#email") do
@@ -54,13 +54,13 @@ describe "JS behaviour", :js => true do
     @user.save!
     visit user_path(@user)
 
-    bip_text :user, :email, "new@email.com"
+    bip_text @user, :email, "new@email.com"
 
     within("#email") do
       page.should have_content("new@email.com")
     end
 
-    bip_text :user, :email, "new_two@email.com"
+    bip_text @user, :email, "new_two@email.com"
 
     within("#email") do
       page.should have_content("new_two@email.com")
@@ -76,10 +76,10 @@ describe "JS behaviour", :js => true do
     @user.save!
     visit user_path(@user)
 
-    bip_text :user, :email, "wrong format"
+    bip_text @user, :email, "wrong format"
     page.should have_content("Email has wrong email format")
 
-    bip_text :user, :email, "another@email.com"
+    bip_text @user, :email, "another@email.com"
     within("#email") do
       page.should have_content("another@email.com")
     end
@@ -97,7 +97,7 @@ describe "JS behaviour", :js => true do
       page.should have_content("Italy")
     end
 
-    bip_select :user, :country, "France"
+    bip_select @user, :country, "France"
 
     visit user_path(@user)
     within("#country") do
@@ -113,7 +113,7 @@ describe "JS behaviour", :js => true do
       page.should have_content("No thanks")
     end
 
-    bip_bool :user, :receive_email
+    bip_bool @user, :receive_email
 
     visit user_path(@user)
     within("#receive_email") do
@@ -125,7 +125,7 @@ describe "JS behaviour", :js => true do
     @user.save!
     visit user_path(@user)
 
-    bip_text :user, :address, ""
+    bip_text @user, :address, ""
     page.should have_content("Address can't be blank")
     within("#address") do
       page.should have_content("Via Roma 99")
@@ -136,7 +136,7 @@ describe "JS behaviour", :js => true do
     @user.save!
     visit user_path(@user)
 
-    bip_text :user, :last_name, "a"
+    bip_text @user, :last_name, "a"
     page.should have_content("last_name has invalid length")
   end
 
@@ -144,13 +144,13 @@ describe "JS behaviour", :js => true do
     @user.save!
     visit user_path(@user)
 
-    bip_text :user, :last_name, "a"
+    bip_text @user, :last_name, "a"
 
     within("#last_name") do
       page.should have_content("Napoli")
     end
 
-    bip_text :user, :last_name, "Another"
+    bip_text @user, :last_name, "Another"
 
     within("#last_name") do
       page.should have_content("Another")

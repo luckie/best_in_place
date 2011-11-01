@@ -26,8 +26,18 @@ describe BestInPlace::BestInPlaceHelpers do
         @span = nk.css("span")
       end
 
-      it "should have a proper id" do
-        @span.attribute("id").value.should == "best_in_place_user_name"
+      context "when it's an ActiveRecord model" do
+        it "should have a proper id" do
+          @span.attribute("id").value.should == "best_in_place_user_#{@user.id}_name"
+        end
+      end
+
+      context "when it's not an AR model" do
+        it "shold generate an html id without any id" do
+          nk = Nokogiri::HTML.parse(helper.best_in_place [1,2,3], :first, :path => @user)
+          span = nk.css("span")
+          span.attribute("id").value.should == "best_in_place_array_first"
+        end
       end
 
       it "should have the best_in_place class" do

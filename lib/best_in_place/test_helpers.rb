@@ -1,24 +1,28 @@
 module BestInPlace
   module TestHelpers
+
     def bip_text(model, attr, new_value)
+      id = BestInPlace::Utils.build_best_in_place_id model, attr
       page.execute_script <<-JS
-        $("#best_in_place_#{model}_#{attr}").click();
-        $("#best_in_place_#{model}_#{attr} input[name='#{attr}']").val('#{new_value}');
-        $("#best_in_place_#{model}_#{attr} form").submit();
+        $("##{id}").click();
+        $("##{id} input[name='#{attr}']").val('#{new_value}');
+        $("##{id} form").submit();
       JS
     end
 
     def bip_bool(model, attr)
-      page.execute_script("$('#best_in_place_#{model}_#{attr}').click();")
+      id = BestInPlace::Utils.build_best_in_place_id model, attr
+      page.execute_script("$('##{id}').click();")
     end
 
     def bip_select(model, attr, name)
+      id = BestInPlace::Utils.build_best_in_place_id model, attr
       page.execute_script <<-JS
         (function() {
-          $("#best_in_place_#{model}_#{attr}").click();
-          var opt_value = $("#best_in_place_#{model}_#{attr} select option:contains('#{name}')").attr('value');
-          $("#best_in_place_#{model}_#{attr} select option[value='" + opt_value + "']").attr('selected', true);
-          $("#best_in_place_#{model}_#{attr} select").change();
+          $("##{id}").click();
+          var opt_value = $("##{id} select option:contains('#{name}')").attr('value');
+          $("##{id} select option[value='" + opt_value + "']").attr('selected', true);
+          $("##{id} select").change();
         })();
       JS
     end

@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    best_in_place (0.1.9)
+    best_in_place (1.0.0)
       jquery-rails
       rails (~> 3.1.0)
 
