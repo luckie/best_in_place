@@ -1,6 +1,15 @@
 module BestInPlace
   module TestHelpers
 
+    def bip_area(model, attr, new_value)
+      id = BestInPlace::Utils.build_best_in_place_id model, attr
+      page.execute_script <<-JS
+        $("##{id}").click();
+        $("##{id} form textarea").val('#{new_value}');
+        $("##{id} form textarea").blur();
+      JS
+    end
+
     def bip_text(model, attr, new_value)
       id = BestInPlace::Utils.build_best_in_place_id model, attr
       page.execute_script <<-JS
