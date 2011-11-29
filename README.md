@@ -75,7 +75,7 @@ Otherwise, we will have the same outcome as:
 It is a very useful feature to use with, for example, [Ryan Bates](https://github.com/ryanb)' [CanCan](https://github.com/ryanb/cancan), so we only allow BIP edition if the current user has permission to do it.
 
 ##TestApp and examples
-A [test_app](https://github.com/bernat/best_in_place/tree/master/test_app) was created, and can be seen in action in a [running demo on heroku](bipapp.heroku.com).
+A [test_app](https://github.com/bernat/best_in_place/tree/master/test_app) was created, and can be seen in action in a [running demo on heroku](http://bipapp.heroku.com).
 
 Examples (code in the views):
 
