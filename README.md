@@ -75,6 +75,8 @@ Otherwise, we will have the same outcome as:
 
 It is a very useful feature to use with, for example, [Ryan Bates](https://github.com/ryanb)' [CanCan](https://github.com/ryanb/cancan), so we only allow BIP edition if the current user has permission to do it.
 
+---
+
 ##TestApp and examples
 A [test_app](https://github.com/bernat/best_in_place/tree/master/test_app) was created, and can be seen in action in a [running demo on heroku](http://bipapp.heroku.com).
 
@@ -152,6 +154,8 @@ At the same time, you must define the restrictions, validations and error messag
 
 When the user tries to introduce invalid data, the error messages defined in the model will be displayed in pop-up windows using the jQuery.purr plugin.
 
+---
+
 ##Non Active Record environments
 We are not planning to support other ORMs apart from Active Record, at least for now. So, you can perfectly consider the following workaround as *the right way* until a specific implementation is done for your ORM.
 
@@ -224,7 +228,7 @@ And finally we need a controller:
 
 And this is how it is done!
 
-----
+---
 
 ##Test Helpers
 Best In Place has also some helpers that may be very useful for integration testing. Since it might very common to test some views using Best In Place, some helpers are provided to ease it.
@@ -244,6 +248,8 @@ The parameters are defined here (some are method-specific):
 * **attr**: the attribute of the model to which this action applies.
 * **new_value** (only **bip_area** and **bip_text**): the new value with which to fill the BIP field.
 * **name** (only **bip_select**): the name to select from the dropdown selector.
+
+---
 
 ##Installation
 
@@ -298,8 +304,7 @@ Finally, as for Rails 3.1, just add a binding to prepare all best in place field
       jQuery(".best_in_place").best_in_place();
     });
 
-
-----
+---
 
 ## Security
 
@@ -307,6 +312,8 @@ If the script is used with the Rails Gem no html tags will be allowed unless the
 
     <meta name="csrf-param" content="authenticity_token"/>
     <meta name="csrf-token" content="YOUR UNIQUE TOKEN HERE"/>
+
+---
 
 ##TODO
 
@@ -336,6 +343,8 @@ If the script is used with the Rails Gem no html tags will be allowed unless the
 - v.0.2.0 Added RSpec and Capybara setup, and some tests. Fix countries map syntax, Allowing href and some other HTML attributes. Adding Travis CI too. Added the best_in_place_if option. Added ajax:success trigger, thanks to @indrekj.
 - v.0.2.1 Fixing double initialization bug.
 - v.0.2.2 New bip_area text helper.
+
+---
 
 ##Authors, License and Stuff
 
