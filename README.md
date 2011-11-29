@@ -31,6 +31,7 @@ The editor works by PUTting the updated value to the server and GETting the upda
 
 ##Usage of Rails 3 Gem
 
+###best_in_place
 **best_in_place object, field, OPTIONS**
 
 Params:
@@ -50,6 +51,28 @@ Options:
 - **:sanitize**: True by default. If set to false the input/textarea will accept html tags.
 - **:html_args**: Hash of html arguments, such as maxlength, default-value etc.
 
+###best_in_place_if
+**best_in_place_if condition, object, field, OPTIONS**
+
+It allows us to use best_in_place only if the first new parameter, a
+condition, is satisfied. Specifically:
+
+* Will show a normal best_in_place if the condition is satisfied
+* Will only show the attribute from the instance if the condition is not satisfied
+
+Say we have something like
+
+    <%= best_in_place *condition*, @user, :name, :type => :input %>
+
+In case *condition* is satisfied, the outcome will be just the same as:
+
+    <%= best_in_place @user, :name, :type => :input %>
+
+Otherwise, we will have the same outcome as:
+
+    <%= @user.name %>
+
+It is a very useful feature to use with, for example, [Ryan Bates](https://github.com/ryanb)' [CanCan](https://github.com/ryanb/cancan), so we only allow BIP edition if the current user has permission to do it.
 
 I created a [test_app](https://github.com/bernat/best_in_place/tree/master/test_app) and a running demo in heroku to test the features.
 
