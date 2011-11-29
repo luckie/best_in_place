@@ -50,7 +50,7 @@ Options:
   If not defined it will show *"-"*.
 - **:activator**: Is the DOM object that can activate the field. If not defined the user will making editable by clicking on it.
 - **:sanitize**: True by default. If set to false the input/textarea will accept html tags.
-- **:html_args**: Hash of html arguments, such as maxlength, default-value etc.
+- **:html_attrs**: Hash of html arguments, such as maxlength, default-value etc.
 
 ###best_in_place_if
 **best_in_place_if condition, object, field, OPTIONS**
