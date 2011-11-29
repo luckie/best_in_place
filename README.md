@@ -152,6 +152,78 @@ At the same time, you must define the restrictions, validations and error messag
 
 When the user tries to introduce invalid data, the error messages defined in the model will be displayed in pop-up windows using the jQuery.purr plugin.
 
+##Non Active Record environments
+We are not planning to support other ORMs apart from Active Record, at least for now. So, you can perfectly consider the following workaround as *the right way* until a specific implementation is done for your ORM.
+
+Best In Place automatically assumes that Active Record is the ORM you are using. However, this might not be your case, as you might use another ORM (or not ORM at all for that case!). Good news for you: even in such situation Best In Place can be used!
+
+Let's setup an example so we can illustrate how to use Best In Place too in a non-ORM case. Imagine you have an awesome ice cream shop, and you have a model representing a single type of ice cream. The IceCream model has a name, a description, a... nevermind. The thing is that it also has a stock, which is a combination of flavour and size. A big chocolate ice cream (yummy!), a small paella ice cream (...really?), and so on. Shall we see some code?
+
+    class IceCream < ActiveRecord::Base
+      serialize :stock, Hash
+
+      # consider the get_stock and set_stock methods are already defined
+    end
+
+Imagine we want to have a grid showing all the combinations of flavour and size and, for each combination, an editable stock. Since the stock for a flavour and a size is not a single and complete model attribute, we cannot use Best In Place *directly*. But we can set it up with an easy workaround.
+
+In the view, we'd do:
+
+    // @ice_cream is already available
+    - flavours = ... // get them somewhere
+    - sizes = ... // get them somewhere
+    %table
+      %tr
+        - ([""] + flavours).each do |flavour|
+          %th= flavour
+      - sizes.each do |size|
+        %tr
+          %th= size
+          - flavours.each do |flavour|
+            - v = @ice_cream.get_stock(:flavour => flavour, :size => size)
+            %td= best_in_place v, :to_i, :type => :input, :path => set_stock_ice_cream_path(:flavour => flavour, :size => size)
+
+Now we need a route to which send the stock updates:
+
+    TheAwesomeIceCreamShop::Application.routes.draw do
+      ...
+
+      resources :ice_creams, :only => :none do
+        member do
+          put :set_stock
+        end
+      end
+
+      ...
+    end
+
+And finally we need a controller:
+
+
+    class IceCreamsController < ApplicationController::Base
+      respond_to :html, :json
+
+      ...
+
+      def set_stock
+        flavour = params[:flavour]
+        size = params[:size]
+        new_stock = (params["fixnum"] || {})["to_i"]
+
+        @ice_cream.set_stock(new_stock, { :flavour => flavour, :size => size })
+        if @ice_cream.save
+          head :ok
+        else
+          render :json => @ice_cream.errors.full_messages, :status => :unprocessable_entity
+        end
+      end
+
+      ...
+
+    end
+
+And this is how it is done!
+
 ----
 
 ##Test Helpers
