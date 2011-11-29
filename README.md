@@ -62,7 +62,7 @@ condition, is satisfied. Specifically:
 
 Say we have something like
 
-    <%= best_in_place *condition*, @user, :name, :type => :input %>
+    <%= best_in_place condition, @user, :name, :type => :input %>
 
 In case *condition* is satisfied, the outcome will be just the same as:
 
