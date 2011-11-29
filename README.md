@@ -26,6 +26,7 @@ The editor works by PUTting the updated value to the server and GETting the upda
 - Allows external activator
 - ESC key destroys changes (requires user confirmation)
 - Autogrowing textarea
+- Helper for generating the best_in_place field only if a condition is satisfied
 
 ---
 
