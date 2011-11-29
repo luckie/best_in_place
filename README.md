@@ -282,9 +282,11 @@ Installing *best_in_place* for Rails 3.0 or below is a little bit
 different, since the master branch is specifically updated for Rails
 3.1. But don't be scared, you'll be fine!
 
-First, add the Rails 3.0 branch for the gem in your Gemfile:
+Rails 3.0 support will be held in the 0.2.X versions, but we have planned not to continue developing for this version of Rails. Nevertheless, you can by implementing what you want and sending us a pull request.
 
-    gem "best_in_place", :branch => "rails-3.0"
+First, add the gem's 0.2 version in the Gemfile:
+
+    gem "best_in_place", "~> 0.2.0"
 
 After that, install and load all the javascripts from the folder
 **/public/javascripts** in your layouts. They have to be in the order:
@@ -325,7 +327,7 @@ If the script is used with the Rails Gem no html tags will be allowed unless the
 ##Changelog
 
 ###Master branch (and part of the Rails 3.0 branch)
-- v.0.1.0 Initial deploy
+- v.0.1.0 Initial commit
 - v.0.1.2 Fixing errors in collections (taken value[0] instead of index) and fixing test_app controller responses
 - v.0.1.3 Bug in Rails Helper. Key wrongly considered an Integer.
 - v.0.1.4 Adding two new parameters for further customization urlObject and nilValue and making input update on blur.
