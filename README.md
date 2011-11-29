@@ -118,32 +118,61 @@ At the same time, you must define the restrictions, validations and error messag
 
 When the user tries to introduce invalid data, the error messages defined in the model will be displayed in pop-up windows using the jQuery.purr plugin.
 
----
+----
 
 ##Installation
 
-It works by simply copying and loading the files from the folder **/public/javascripts** to your application and loading them in your layouts
-in the following order:
+###Rails 3.1 and higher
 
-- jquery-1.4.4.js
-- jquery.purr.js
-- **best_in_place.js**
+Installing *best_in_place* is very easy and straight-forward, even more
+thanks to Rails 3.1. Just begin including the gem in your Gemfile:
 
-The last one you can copy it (and keeping up to date to the last version) by running the following generator in your application's root.
-Remember to do it every time you update the gem (or you will see no change).
+    gem "best_in_place"
 
-    rails g best_in_place:setup
+After that, specify the use of the jquery, jquery.purr and best in place
+javascripts in your application.js:
 
-To be able to use the script the following block must be added as well:
+    //= require jquery.purr
+    //= require jquery.purr
+    //= require best_in_place
+
+Then, just add a binding to prepare all best in place fields when the document is ready:
 
     $(document).ready(function() {
       /* Activating Best In Place */
-      jQuery(".best_in_place").best_in_place()
+      jQuery(".best_in_place").best_in_place();
     });
 
-In order to use the Rails 3 gem, just add the following line to the gemfile:
+You are done!
 
-    gem "best_in_place"
+###Rails 3.0 and lower
+
+Installing *best_in_place* for Rails 3.0 or below is a little bit
+different, since the master branch is specifically updated for Rails
+3.1. But don't be scared, you'll be fine!
+
+First, add the Rails 3.0 branch for the gem in your Gemfile:
+
+    gem "best_in_place", :branch => "rails-3.0"
+
+After that, install and load all the javascripts from the folder
+**/public/javascripts** in your layouts. They have to be in the order:
+
+* jquery
+* jquery.purr
+* **best_in_place**
+
+You can automatize this installation by doing
+
+    rails g best_in_place:setup
+
+Finally, as for Rails 3.1, just add a binding to prepare all best in place fields when the document is ready:
+
+    $(document).ready(function() {
+      /* Activating Best In Place */
+      jQuery(".best_in_place").best_in_place();
+    });
+
 
 ----
 
