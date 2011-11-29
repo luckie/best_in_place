@@ -132,7 +132,7 @@ thanks to Rails 3.1. Just begin including the gem in your Gemfile:
 After that, specify the use of the jquery, jquery.purr and best in place
 javascripts in your application.js:
 
-    //= require jquery.purr
+    //= require jquery
     //= require jquery.purr
     //= require best_in_place
 
