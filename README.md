@@ -187,7 +187,6 @@ If the script is used with the Rails Gem no html tags will be allowed unless the
 
 - Client Side Validation definitions
 - Accepting more than one handler to activate best_in_place fields
-- Specs *(sacrilege!!)*
 
 ---
 
