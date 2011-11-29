@@ -75,6 +75,25 @@ Otherwise, we will have the same outcome as:
 
 It is a very useful feature to use with, for example, [Ryan Bates](https://github.com/ryanb)' [CanCan](https://github.com/ryanb/cancan), so we only allow BIP edition if the current user has permission to do it.
 
+##Test Helpers
+Best In Place has also some helpers that may be very useful for integration testing. Since it might very common to test some views using Best In Place, some helpers are provided to ease it.
+
+As of now, a total of four helpers are available. There is one for each of the following BIP types: a plain text input, a textarea, a boolean input and a selector. Its function is to simulate the user's action of filling such fields.
+
+These four helpers are listed below:
+
+* **bip_area(model, attr, new_value)**
+* **bip_text(model, attr, new_value)**
+* **bip_bool(model, attr)**
+* **bip_select(model, attr, name)**
+
+The parameters are defined here (some are method-specific):
+
+* **model**: the model to which this action applies.
+* **attr**: the attribute of the model to which this action applies.
+* **new_value** (only **bip_area** and **bip_text**): the new value with which to fill the BIP field.
+* **name** (only **bip_select**): the name to select from the dropdown selector.
+
 ##TestApp and examples
 A [test_app](https://github.com/bernat/best_in_place/tree/master/test_app) was created, and can be seen in action in a [running demo on heroku](http://bipapp.heroku.com).
 
