@@ -84,18 +84,27 @@ If not defined, it will default to *Yes* and *No* options.
 If you are using a Rails application, your controller's should respond to json in case of error.
 Example:
 
-    def update
-      @user = User.find(params[:id])
+    class UserController < ApplicationController
+      respond_to :html, :json
 
-      respond_to do |format|
-        if @user.update_attributes(params[:user])
-          format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
-          format.json { head :ok }
-        else
-          format.html { render :action => "edit" }
-          format.json { render :json => @user.errors.full_messages, :status => :unprocessable_entity }
+      ...
+
+      def update
+        @user = User.find(params[:id])
+
+        respond_to do |format|
+          if @user.update_attributes(params[:user])
+            format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
+            format.json { head :ok }
+          else
+            format.html { render :action => "edit" }
+            format.json { render :json => @user.errors.full_messages, :status => :unprocessable_entity }
+          end
         end
       end
+
+      ...
+
     end
 
 At the same time, you must define the restrictions, validations and error messages in the model, as the example below:
