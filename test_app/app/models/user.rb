@@ -14,6 +14,6 @@ class User < ActiveRecord::Base
   validates :zip, :numericality => true, :length => { :minimum => 5 }
 
   def address_format
-    "<b>#{address}</b>".html_safe
+    "<b>addr => [#{address}]</b>".html_safe
   end
 end
