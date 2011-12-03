@@ -5,7 +5,13 @@ module BestInPlace
       opts[:type] ||= :input
       opts[:collection] ||= []
       field = field.to_s
-      value = object.send(field).blank? ? "" : object.send(field)
+
+      if opts[:display_as]
+        value = object.send(opts[:display_as])
+      else
+        value = object.send(field).blank? ? "" : object.send(field)
+      end
+
       collection = nil
       if opts[:type] == :select && !opts[:collection].blank?
         v = object.send(field)
