@@ -7,6 +7,7 @@ module BestInPlace
       field = field.to_s
 
       if opts[:display_as]
+        BestInPlace::DisplayMethods.add(object.class.to_s, field, opts[:display_as])
         value = object.send(opts[:display_as])
       else
         value = object.send(field).blank? ? "" : object.send(field)
