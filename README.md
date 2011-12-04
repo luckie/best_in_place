@@ -29,7 +29,6 @@ The editor works by PUTting the updated value to the server and GETting the upda
 - Helper for generating the best_in_place field only if a condition is satisfied
 - Provided test helpers to be used in your integration specs
 - Custom display methods
----
 
 ##Usage of Rails 3 Gem
 
