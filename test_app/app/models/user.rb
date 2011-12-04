@@ -16,4 +16,8 @@ class User < ActiveRecord::Base
   def address_format
     "<b>addr => [#{address}]</b>".html_safe
   end
+
+  def markdown_desc
+    RDiscount.new(description).to_html.html_safe
+  end
 end
