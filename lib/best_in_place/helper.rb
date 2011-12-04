@@ -6,12 +6,7 @@ module BestInPlace
       opts[:collection] ||= []
       field = field.to_s
 
-      if opts[:display_as]
-        BestInPlace::DisplayMethods.add(object.class.to_s, field, opts[:display_as])
-        value = object.send(opts[:display_as])
-      else
-        value = object.send(field).blank? ? "" : object.send(field)
-      end
+      value = build_value_for(object, field, opts)
 
       collection = nil
       if opts[:type] == :select && !opts[:collection].blank?
@@ -53,7 +48,17 @@ module BestInPlace
       if condition
         best_in_place(object, field, opts)
       else
-        object.send field
+        build_value_for object, field, opts
+      end
+    end
+
+  private
+    def build_value_for(object, field, opts)
+      if opts[:display_as]
+        BestInPlace::DisplayMethods.add(object.class.to_s, field, opts[:display_as])
+        object.send(opts[:display_as]).to_s
+      else
+        object.send(field).blank? ? "" : object.send(field).to_s
       end
     end
   end

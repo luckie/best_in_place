@@ -230,7 +230,7 @@ describe BestInPlace::BestInPlaceHelpers do
         @output = "Some Value"
         @field = :somefield
         @object = mock("object", @field => @output)
-        @options = mock("options")
+        @options = {}
       end
       context "when the condition is true" do
         before {@condition = true}
