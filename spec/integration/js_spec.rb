@@ -193,6 +193,19 @@ describe "JS behaviour", :js => true do
         page.should have_content("addr => [New address]")
       end
     end
+
+    it "should display the original content when editing the form" do
+      @user.save!
+      visit user_path(@user)
+
+      id = BestInPlace::Utils.build_best_in_place_id @user, :address
+      page.execute_script <<-JS
+        $("##{id}").click();
+      JS
+
+      text = page.find("##{id} input").value
+      text.should == "Via Roma 99"
+    end
   end
 end
 
