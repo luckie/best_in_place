@@ -382,6 +382,9 @@ Fork the project on [github](https://github.com/bernat/best_in_place 'bernat / b
 - v.1.0.0 Setting RSpec and Capybara up, and adding some utilities. Mantaining some HTML attributes. Fix a respond_with bug (thanks, @moabite). Triggering ajax:success when ajax call is complete (thanks, @indrekj). Setting up Travis CI. Updated for Rails 3.1.
 - v.1.0.1 Fixing a double initialization bug
 - v.1.0.2 New bip_area text helper to work with text areas.
+- v.1.0.3 replace apostrophes in collection with corresponding HTML entity,
+  thanks @taavo. Implemented `:display_as` option and adding
+  `respond_with_bip` to be used in the controller.
 
 ###Rails 3.0 branch only
 - v.0.2.0 Added RSpec and Capybara setup, and some tests. Fix countries map syntax, Allowing href and some other HTML attributes. Adding Travis CI too. Added the best_in_place_if option. Added ajax:success trigger, thanks to @indrekj.
