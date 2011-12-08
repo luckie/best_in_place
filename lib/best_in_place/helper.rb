@@ -58,7 +58,7 @@ module BestInPlace
         BestInPlace::DisplayMethods.add(object.class.to_s, field, opts[:display_as])
         object.send(opts[:display_as]).to_s
       else
-        object.send(field).blank? ? "" : object.send(field).to_s
+        object.send(field).to_s.presence || ""
       end
     end
   end
