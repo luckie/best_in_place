@@ -162,7 +162,7 @@ describe "JS behaviour", :js => true do
     end
   end
 
-  it "should fire off a callback when updating updating a field" do
+  it "should fire off a callback when updating a field" do
     @user.save!
     visit user_path(@user)
 
