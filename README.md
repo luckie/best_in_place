@@ -278,11 +278,16 @@ thanks to Rails 3.1. Just begin including the gem in your Gemfile:
     gem "best_in_place"
 
 After that, specify the use of the jquery, jquery.purr and best in place
-javascripts in your application.js:
+javascripts in your application.js, and optionally specify jquery-ui if
+you want to use jQuery UI datepickers:
 
     //= require jquery
+    //= require jquery-ui
     //= require jquery.purr
     //= require best_in_place
+
+If you want to use jQuery UI datepickers, you should also install and
+load your preferred jquery-ui CSS file and associated assets.
 
 Then, just add a binding to prepare all best in place fields when the document is ready:
 
@@ -315,6 +320,10 @@ After that, install and load all the javascripts from the folder
 You can automatize this installation by doing
 
     rails g best_in_place:setup
+
+If you want to use jQuery UI datepickers, you should also install and
+load jquery-ui.js as well as your preferred jquery-ui CSS file and
+associated assets.
 
 Finally, as for Rails 3.1, just add a binding to prepare all best in place fields when the document is ready:
 
