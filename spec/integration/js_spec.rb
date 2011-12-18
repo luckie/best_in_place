@@ -220,6 +220,21 @@ describe "JS behaviour", :js => true do
       text = page.find("##{id} input").value
       text.should == "Via Roma 99"
     end
+
+    it "should display the updated content after editing the field two consecutive times" do
+      @user.save!
+      visit user_path(@user)
+
+      bip_text @user, :address, "New address"
+
+      id = BestInPlace::Utils.build_best_in_place_id @user, :address
+      page.execute_script <<-JS
+        $("##{id}").click();
+      JS
+
+      text = page.find("##{id} input").value
+      text.should == "New address"
+    end
   end
 end
 
