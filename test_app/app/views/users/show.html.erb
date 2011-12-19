@@ -49,13 +49,17 @@
     <tr>
       <td>Favorite color</td>
       <td id="favorite_color">
-        <%= best_in_place @user, :favorite_color, :ok_button => 'Do it!', :cancel_button => 'Nope' %>
+        <%- opts = { :ok_button => 'Do it!', :cancel_button => 'Nope' } %>
+        <%- opts.delete(:ok_button) if params[:suppress_ok_button] %>
+        <%= best_in_place @user, :favorite_color, opts %>
       </td>
     </tr>
     <tr>
       <td>Favorite books</td>
       <td id="favorite_books">
-        <%= best_in_place @user, :favorite_books, :type => :textarea, :ok_button => 'Save', :cancel_button => 'Cancel' %>
+        <%- opts = { :type => :textarea, :ok_button => 'Save', :cancel_button => 'Cancel' } %>
+        <%- opts.delete(:ok_button) if params[:suppress_ok_button] %>
+        <%= best_in_place @user, :favorite_books, opts %>
       </td>
     </tr>
     <tr>

@@ -123,7 +123,7 @@ describe "JS behaviour", :js => true do
     end
   end
 
-  it "should correctly use an OK submit button when so configured for a text field" do
+  it "should correctly use an OK submit button when so configured for an input" do
     @user.save!
     visit user_path(@user)
 
@@ -144,7 +144,7 @@ describe "JS behaviour", :js => true do
     end
   end
   
-  it "should correctly use a Cancel button when so configured for a text field" do
+  it "should correctly use a Cancel button when so configured for an input" do
     @user.save!
     visit user_path(@user)
 
@@ -163,6 +163,55 @@ describe "JS behaviour", :js => true do
     within("#favorite_color") do
       page.should have_content('Red')
     end
+  end
+  
+  it "should not submit input on blur if there's an OK button present" do
+    @user.save!
+    visit user_path(@user)
+
+    within("#favorite_color") do
+      page.should have_content('Red')
+    end
+    
+    id = BestInPlace::Utils.build_best_in_place_id @user, :favorite_color
+    page.execute_script <<-JS
+      $("##{id}").click();
+      $("##{id} input[name='favorite_color']").val('Blue');
+      $("##{id} input[name='favorite_color']").blur();
+    JS
+    sleep 1 # Increase if browser is slow
+        
+    visit user_path(@user)
+    within("#favorite_color") do
+      page.should have_content('Red')
+    end
+  end
+  
+  it "should still submit input on blur if there's only a Cancel button present" do
+    @user.save!
+    visit user_path(@user, :suppress_ok_button => 1)
+
+    within("#favorite_color") do
+      page.should have_content('Red')
+    end
+
+    id = BestInPlace::Utils.build_best_in_place_id @user, :favorite_color
+    page.execute_script %{$("##{id}").click();}
+    page.should have_no_css("##{id} input[type='submit']")
+    page.execute_script <<-JS
+      $("##{id} input[name='favorite_color']").val('Blue');
+      $("##{id} input[name='favorite_color']").blur();
+    JS
+    sleep 1 # Increase if browser is slow
+
+    visit user_path(@user)
+    within("#favorite_color") do
+      page.should have_content('Blue')
+    end
+  end
+  
+  it "should do the above 3 for text areas" do
+    pending
   end
   
   it "should correctly use an OK submit button when so configured for a text area" do
