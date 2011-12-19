@@ -210,10 +210,6 @@ describe "JS behaviour", :js => true do
     end
   end
   
-  it "should do the above 3 for text areas" do
-    pending
-  end
-  
   it "should correctly use an OK submit button when so configured for a text area" do
     @user.save!
     visit user_path(@user)
@@ -249,13 +245,60 @@ describe "JS behaviour", :js => true do
       $("##{id} textarea").val('1Q84');
       $("##{id} input[type='button']").click();
     JS
-    
+    page.driver.browser.switch_to.alert.accept
+
     visit user_path(@user)
     within("#favorite_books") do
       page.should have_content('The City of Gold and Lead')
     end
   end
   
+  it "should not submit text area on blur if there's an OK button present" do
+    @user.save!
+    visit user_path(@user)
+
+    within("#favorite_books") do
+      page.should have_content('The City of Gold and Lead')
+    end
+    
+    id = BestInPlace::Utils.build_best_in_place_id @user, :favorite_books
+    page.execute_script <<-JS
+      $("##{id}").click();
+      $("##{id} textarea").val('1Q84');
+      $("##{id} textarea").blur();
+    JS
+    sleep 1 # Increase if browser is slow
+    page.driver.browser.switch_to.alert.accept
+        
+    visit user_path(@user)
+    within("#favorite_books") do
+      page.should have_content('The City of Gold and Lead')
+    end
+  end
+  
+  it "should still submit text area on blur if there's only a Cancel button present" do
+    @user.save!
+    visit user_path(@user, :suppress_ok_button => 1)
+
+    within("#favorite_books") do
+      page.should have_content('The City of Gold and Lead')
+    end
+
+    id = BestInPlace::Utils.build_best_in_place_id @user, :favorite_books
+    page.execute_script %{$("##{id}").click();}
+    page.should have_no_css("##{id} input[type='submit']")
+    page.execute_script <<-JS
+      $("##{id} textarea").val('1Q84');
+      $("##{id} textarea").blur();
+    JS
+    sleep 1 # Increase if browser is slow
+
+    visit user_path(@user)
+    within("#favorite_books") do
+      page.should have_content('1Q84')
+    end
+  end
+
   it "should show validation errors" do
     @user.save!
     visit user_path(@user)
