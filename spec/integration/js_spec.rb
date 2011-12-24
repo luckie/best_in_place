@@ -91,7 +91,7 @@ describe "JS behaviour", :js => true do
     end
   end
 
-  it "should be able to use bil_select to change a select field" do
+  it "should be able to use bip_select to change a select field" do
     @user.save!
     visit user_path(@user)
     within("#country") do
