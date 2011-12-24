@@ -122,46 +122,26 @@ prepare a `$.datepicker.setDefaults` call with the preferences of your choice.
 More information about datepicker and setting defaults can be found
 [here](http://docs.jquery.com/UI/Datepicker/$.datepicker.setDefaults)
 
-## Controller response and respond_with_bip
+## Controller response with respond_with_bip
 
-Your controller should respond to json as it's the format used by best in
-place javascript. A simple example would be:
+Best in place provides a utility method you should use in your controller in
+order to provide the response that is expected by the javascript side, using
+the :json format. This is a simple example showing an update action using it:
 
-    class UserController < ApplicationController
-      def update
-        @user = User.find(params[:id])
+    def update
+      @user = User.find params[:id]
 
-        respond_to do |format|
-          if @user.update_attributes(params[:user])
-            format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
-            format.json { head :ok }
-          else
-            format.html { render :action => "edit" }
-            format.json { render :json => @user.errors.full_messages, :status => :unprocessable_entity }
-          end
+      respond_to do |format|
+        if @user.update_attributes(params[:user])
+          format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
+          format.json { respond_with_bip(@user) }
+        else
+          format.html { render :action => "edit" }
+          format.json { respond_with_bip(@user) }
         end
       end
     end
 
-If you respond with a json like `{:display_as => "New value to show"}` with
-status 200 (ok), then the updated field will show *New value to show* after
-being updated. This is needed in order to support the custom display methods,
-and it's automatically handled if you use the new method to encapsulate
-the responses:
-
-
-        respond_to do |format|
-          if @user.update_attributes(params[:user])
-            format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
-            format.json { respond_with_bip(@user) }
-          else
-            format.html { render :action => "edit" }
-            format.json { respond_with_bip(@user) }
-          end
-        end
-
-This will be exactly the same as the previous example, but with support to
-handle custom display methods.
 
 ## Custom display methods
 
