@@ -274,6 +274,8 @@ describe "JS behaviour", :js => true do
         $("##{id}").click();
       JS
 
+      wait_until { page.has_selector?("##{id} input")}
+
       text = page.find("##{id} input").value
       text.should == "Via Roma 99"
     end
@@ -288,6 +290,8 @@ describe "JS behaviour", :js => true do
       page.execute_script <<-JS
         $("##{id}").click();
       JS
+
+      wait_until { page.has_selector?("##{id} input")}
 
       text = page.find("##{id} input").value
       text.should == "New address"
@@ -337,6 +341,8 @@ describe "JS behaviour", :js => true do
         $("##{id}").click();
       JS
 
+      wait_until { page.has_selector?("##{id} input")}
+
       text = page.find("##{id} input").value
       text.should == "100.0"
     end
@@ -351,6 +357,8 @@ describe "JS behaviour", :js => true do
       page.execute_script <<-JS
         $("##{id}").click();
       JS
+
+      wait_until { page.has_selector?("##{id} input")}
 
       text = page.find("##{id} input").value
       text.should == "40"
