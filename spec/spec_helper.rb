@@ -20,4 +20,4 @@ RSpec.configure do |config|
   config.mock_with :rspec
 end
 
-Capybara.default_wait_time = 10
+Capybara.default_wait_time = ENV['TRAVIS'] ? 40 : 10
