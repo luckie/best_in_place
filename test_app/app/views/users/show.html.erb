@@ -57,6 +57,13 @@
       <td id="description">
         <%= best_in_place @user, :description, :display_as => :markdown_desc, :type => :textarea, :sanitize => false %>
       </td>
+    </tr>
+    <tr>
+      <td>Money</td>
+      <td id="money">
+        <%= best_in_place @user, :money, :display_with => :number_to_currency %>
+      </td>
+    </tr>
   </table>
   <br />
   <hr />

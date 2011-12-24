@@ -2,6 +2,14 @@ module BestInPlace
   module BestInPlaceHelpers
 
     def best_in_place(object, field, opts = {})
+      if opts[:display_as] && opts[:display_with]
+        raise ArgumentError, "Can't use both 'display_as' and 'display_with' options at the same time"
+      end
+
+      if opts[:display_with] && !ViewHelpers.respond_to?(opts[:display_with])
+        raise ArgumentError, "Can't find helper #{opts[:display_with]}"
+      end
+
       opts[:type] ||= :input
       opts[:collection] ||= []
       field = field.to_s
@@ -33,7 +41,7 @@ module BestInPlace
       out << " data-type='#{opts[:type]}'"
       out << " data-inner-class='#{opts[:inner_class]}'" if opts[:inner_class]
       out << " data-html-attrs='#{opts[:html_attrs].to_json}'" unless opts[:html_attrs].blank?
-      out << " data-original-content='#{object.send(field)}'" if opts[:display_as]
+      out << " data-original-content='#{object.send(field)}'" if opts[:display_as] || opts[:display_with]
       if !opts[:sanitize].nil? && !opts[:sanitize]
         out << " data-sanitize='false'>"
         out << sanitize(value, :tags => %w(b i u s a strong em p h1 h2 h3 h4 h5 ul li ol hr pre span img br), :attributes => %w(id class href))
@@ -55,8 +63,13 @@ module BestInPlace
   private
     def build_value_for(object, field, opts)
       if opts[:display_as]
-        BestInPlace::DisplayMethods.add(object.class.to_s, field, opts[:display_as])
+        BestInPlace::DisplayMethods.add_model_method(object.class.to_s, field, opts[:display_as])
         object.send(opts[:display_as]).to_s
+
+      elsif opts[:display_with]
+        BestInPlace::DisplayMethods.add_helper_method(object.class.to_s, field, opts[:display_with])
+        BestInPlace::ViewHelpers.send(opts[:display_with], object.send(field))
+
       else
         object.send(field).to_s.presence || ""
       end
