@@ -29,7 +29,8 @@ The editor works by PUTting the updated value to the server and GETting the upda
 - Autogrowing textarea
 - Helper for generating the best_in_place field only if a condition is satisfied
 - Provided test helpers to be used in your integration specs
-- Custom display methods
+- Custom display methods using a method from your model or an existing rails
+  view helper
 
 ##Usage of Rails 3 Gem
 
@@ -162,7 +163,9 @@ the responses:
 This will be exactly the same as the previous example, but with support to
 handle custom display methods.
 
-##Using custom display methods
+## Custom display methods
+
+### Using `display_as`
 
 As of best in place 1.0.3 you can use custom methods in your model in order to
 decide how a certain field has to be displayed. You can write something like:
@@ -171,17 +174,21 @@ decide how a certain field has to be displayed. You can write something like:
 
 Then instead of using `@user.description` to show the actual value, best in
 place will call `@user.mk_description`. This can be used for any kind of
-custom formatting, text with markdown, currency values, etc...
+custom formatting, text with markdown, etc...
 
-Because best in place has no way to call that method in your model from
-javascript after a successful update, the only way to display the new correct
-value after an edition is to use the provided methods to respond in your
-controllers, or implement the same in your own way.
+### Using `display_with`
 
-If you respond a successful update with a json having a `display_as` key, that
-value will be used to update the value in the view. The provided
-`respond_with_bip` handles this for you, but if you want you can always
-customize this behaviour.
+In practice the most common situation is when you want to use an existing
+helper to render the attribute, like `number_to_currency` or `simple_format`.
+As of version 1.0.4 best in place provides this feature using the
+`display_with` option. You can use it like this:
+
+    = best_in_place @user, :money, :display_with => :number_to_currency
+
+If you want to pass further arguments to the helper you can do it providing an
+additional `helper_options` hash:
+
+    = best_in_place @user, :money, :display_with => :number_to_currency, :helper_options => {:unit => "€"}
 
 
 ##Non Active Record environments
