@@ -157,7 +157,7 @@ describe "JS behaviour", :js => true do
     JS
 
     within("#birth_date") do
-      page.should have_content(today.beginning_of_month.strftime("%d/%m/%Y"))
+      page.should have_content(today.beginning_of_month.strftime("%d-%m-%Y"))
     end
   end
 

@@ -25,7 +25,7 @@ jQuery(function($){
     dayNamesShort: ['Dug','Dln','Dmt','Dmc','Djs','Dvn','Dsb'],
     dayNamesMin: ['Dg','Dl','Dt','Dc','Dj','Dv','Ds'],
     weekHeader: 'Sm',
-    dateFormat: 'dd/mm/yy',
+    dateFormat: 'dd-mm-yy',
     firstDay: 1,
     isRTL: false,
     showMonthAfterYear: false,
