@@ -12,13 +12,18 @@ describe BestInPlace::BestInPlaceHelpers do
         :country => "2",
         :receive_email => false,
         :birth_date => Time.now.utc.to_date,
-        :description => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a lectus et lacus ultrices auctor. Morbi aliquet convallis tincidunt. Praesent enim libero, iaculis at commodo nec, fermentum a dolor. Quisque eget eros id felis lacinia faucibus feugiat et ante. Aenean justo nisi, aliquam vel egestas vel, porta in ligula. Etiam molestie, lacus eget tincidunt accumsan, elit justo rhoncus urna, nec pretium neque mi et lorem. Aliquam posuere, dolor quis pulvinar luctus, felis dolor tincidunt leo, eget pretium orci purus ac nibh. Ut enim sem, suscipit ac elementum vitae, sodales vel sem."
+        :description => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a lectus et lacus ultrices auctor. Morbi aliquet convallis tincidunt. Praesent enim libero, iaculis at commodo nec, fermentum a dolor. Quisque eget eros id felis lacinia faucibus feugiat et ante. Aenean justo nisi, aliquam vel egestas vel, porta in ligula. Etiam molestie, lacus eget tincidunt accumsan, elit justo rhoncus urna, nec pretium neque mi et lorem. Aliquam posuere, dolor quis pulvinar luctus, felis dolor tincidunt leo, eget pretium orci purus ac nibh. Ut enim sem, suscipit ac elementum vitae, sodales vel sem.",
+        :money => 150
     end
 
     it "should generate a proper span" do
       nk = Nokogiri::HTML.parse(helper.best_in_place @user, :name)
       span = nk.css("span")
       span.should_not be_empty
+    end
+
+    it "should not allow both display_as and display_with option" do
+      lambda { helper.best_in_place(@user, :money, :display_with => :number_to_currency, :display_as => :custom) }.should raise_error(ArgumentError)
     end
 
     describe "general properties" do
@@ -132,6 +137,19 @@ describe BestInPlace::BestInPlaceHelpers do
           nk = Nokogiri::HTML.parse(out)
           span = nk.css("span")
           span.text.should == "the result"
+        end
+      end
+
+      describe "display_with" do
+        it "should render the money with the given view helper" do
+          out = helper.best_in_place @user, :money, :display_with => :number_to_currency
+          nk = Nokogiri::HTML.parse(out)
+          span = nk.css("span")
+          span.text.should == "$150.00"
+        end
+
+        it "should raise an error if the given helper can't be found" do
+          lambda { helper.best_in_place @user, :money, :display_with => :fk_number_to_currency }.should raise_error(ArgumentError)
         end
       end
     end
