@@ -9,8 +9,11 @@ module BestInPlace
       klass = obj.class.to_s
       updating_attr = params[klass.underscore].keys.first
 
-      renderer = BestInPlace::DisplayMethods.lookup(klass, updating_attr)
-      render :json => renderer.render_json(obj)
+      if renderer = BestInPlace::DisplayMethods.lookup(klass, updating_attr)
+        render :json => renderer.render_json(obj)
+      else
+        head :ok
+      end
     end
 
     def respond_bip_error(obj)

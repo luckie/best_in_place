@@ -19,7 +19,7 @@ module BestInPlace
 
     def lookup(klass, attr)
       foo = @@table[klass.to_s][attr.to_s]
-      foo == {} ? Renderer.new : foo
+      foo == {} ? nil : foo
     end
 
     def add_model_method(klass, attr, display_as)
