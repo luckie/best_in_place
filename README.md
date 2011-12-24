@@ -110,6 +110,17 @@ The key can be a string or an integer.
 The first value is always the negative boolean value and the second the positive. Structure: `["false value", "true value"]`.
 If not defined, it will default to *Yes* and *No* options.
 
+### Date
+
+    <%= best_in_place @user, :birth_date, :type => :date %>
+
+With the :date type the input field will be initialized as a datepicker input.
+In order to provide custom options to the datepicker initialization you must
+prepare a `$.datepicker.setDefaults` call with the preferences of your choice.
+
+More information about datepicker and setting defaults can be found
+[here](http://docs.jquery.com/UI/Datepicker/$.datepicker.setDefaults)
+
 ## Controller response and respond_with_bip
 
 Your controller should respond to json as it's the format used by best in
