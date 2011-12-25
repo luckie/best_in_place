@@ -267,34 +267,34 @@ describe "JS behaviour", :js => true do
 
     it "should display the original content when editing the form" do
       @user.save!
-      visit user_path(@user)
+      retry_on_timeout do
+        visit user_path(@user)
 
-      id = BestInPlace::Utils.build_best_in_place_id @user, :address
-      page.execute_script <<-JS
-        $("##{id}").click();
-      JS
+        id = BestInPlace::Utils.build_best_in_place_id @user, :address
+        page.execute_script <<-JS
+          $("##{id}").click();
+        JS
 
-      wait_until { page.has_selector?("##{id} input")}
-
-      text = page.find("##{id} input").value
-      text.should == "Via Roma 99"
+        text = page.find("##{id} input").value
+        text.should == "Via Roma 99"
+      end
     end
 
     it "should display the updated content after editing the field two consecutive times" do
       @user.save!
-      visit user_path(@user)
+      retry_on_timeout do
+        visit user_path(@user)
 
-      bip_text @user, :address, "New address"
+        bip_text @user, :address, "New address"
 
-      id = BestInPlace::Utils.build_best_in_place_id @user, :address
-      page.execute_script <<-JS
-        $("##{id}").click();
-      JS
+        id = BestInPlace::Utils.build_best_in_place_id @user, :address
+        page.execute_script <<-JS
+          $("##{id}").click();
+        JS
 
-      wait_until { page.has_selector?("##{id} input")}
-
-      text = page.find("##{id} input").value
-      text.should == "New address"
+        text = page.find("##{id} input").value
+        text.should == "New address"
+      end
     end
   end
 
@@ -334,34 +334,35 @@ describe "JS behaviour", :js => true do
 
     it "should display the original content when editing the form" do
       @user.save!
-      visit user_path(@user)
+      retry_on_timeout do
+        visit user_path(@user)
 
-      id = BestInPlace::Utils.build_best_in_place_id @user, :money
-      page.execute_script <<-JS
-        $("##{id}").click();
-      JS
+        id = BestInPlace::Utils.build_best_in_place_id @user, :money
+        page.execute_script <<-JS
+          $("##{id}").click();
+        JS
 
-      wait_until { page.has_selector?("##{id} input")}
-
-      text = page.find("##{id} input").value
-      text.should == "100.0"
+        text = page.find("##{id} input").value
+        text.should == "100.0"
+      end
     end
 
     it "should display the updated content after editing the field two consecutive times" do
       @user.save!
-      visit user_path(@user)
 
-      bip_text @user, :money, "40"
+      retry_on_timeout do
+        visit user_path(@user)
 
-      id = BestInPlace::Utils.build_best_in_place_id @user, :money
-      page.execute_script <<-JS
-        $("##{id}").click();
-      JS
+        bip_text @user, :money, "40"
 
-      wait_until { page.has_selector?("##{id} input")}
+        id = BestInPlace::Utils.build_best_in_place_id @user, :money
+        page.execute_script <<-JS
+          $("##{id}").click();
+        JS
 
-      text = page.find("##{id} input").value
-      text.should == "40"
+        text = page.find("##{id} input").value
+        text.should == "40"
+      end
     end
 
     it "should show the money in euros" do
