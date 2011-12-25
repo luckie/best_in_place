@@ -151,6 +151,13 @@ describe BestInPlace::BestInPlaceHelpers do
         it "should raise an error if the given helper can't be found" do
           lambda { helper.best_in_place @user, :money, :display_with => :fk_number_to_currency }.should raise_error(ArgumentError)
         end
+
+        it "should call the helper method with the given arguments" do
+          out = helper.best_in_place @user, :money, :display_with => :number_to_currency, :helper_options => {:unit => "º"}
+          nk = Nokogiri::HTML.parse(out)
+          span = nk.css("span")
+          span.text.should == "º150.00"
+        end
       end
     end
 

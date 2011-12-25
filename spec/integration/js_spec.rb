@@ -364,6 +364,17 @@ describe "JS behaviour", :js => true do
       text.should == "40"
     end
 
+    it "should show the money in euros" do
+      @user.save!
+      visit double_init_user_path(@user)
+
+      within("#alt_money") { page.should have_content("€100.00") }
+
+      bip_text @user, :money, 58
+
+      within("#alt_money") { page.should have_content("€58.00") }
+    end
+
   end
 end
 

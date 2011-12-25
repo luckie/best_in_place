@@ -67,8 +67,12 @@ module BestInPlace
         object.send(opts[:display_as]).to_s
 
       elsif opts[:display_with]
-        BestInPlace::DisplayMethods.add_helper_method(object.class.to_s, field, opts[:display_with])
-        BestInPlace::ViewHelpers.send(opts[:display_with], object.send(field))
+        BestInPlace::DisplayMethods.add_helper_method(object.class.to_s, field, opts[:display_with], opts[:helper_options])
+        if opts[:helper_options]
+          BestInPlace::ViewHelpers.send(opts[:display_with], object.send(field), opts[:helper_options])
+        else
+          BestInPlace::ViewHelpers.send(opts[:display_with], object.send(field))
+        end
 
       else
         object.send(field).to_s.presence || ""

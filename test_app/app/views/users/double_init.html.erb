@@ -51,6 +51,13 @@
       <td id="description">
         <%= best_in_place @user, :description, :type => :textarea, :sanitize => false %>
       </td>
+    </tr>
+    <tr>
+      <td>Alternative Money</td>
+      <td id="alt_money">
+        <%= best_in_place @user, :money, :display_with => :number_to_currency, :helper_options => {:unit => "€"} %>
+      </td>
+    </tr>
   </table>
   <br />
   <hr />

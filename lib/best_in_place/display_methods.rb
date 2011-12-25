@@ -8,7 +8,12 @@ module BestInPlace
         when :model
           {:display_as => object.send(opts[:method])}.to_json
         when :helper
-          {:display_as => BestInPlace::ViewHelpers.send(opts[:method], object.send(opts[:attr]))}.to_json
+          value = if opts[:helper_options]
+                    BestInPlace::ViewHelpers.send(opts[:method], object.send(opts[:attr]), opts[:helper_options])
+                  else
+                    BestInPlace::ViewHelpers.send(opts[:method], object.send(opts[:attr]))
+                  end
+          {:display_as => value}.to_json
         else
           {}.to_json
         end
@@ -26,8 +31,8 @@ module BestInPlace
       @@table[klass.to_s][attr.to_s] = Renderer.new :method => display_as.to_sym, :type => :model
     end
 
-    def add_helper_method(klass, attr, helper_method)
-      @@table[klass.to_s][attr.to_s] = Renderer.new :method => helper_method.to_sym, :type => :helper, :attr => attr
+    def add_helper_method(klass, attr, helper_method, helper_options = nil)
+      @@table[klass.to_s][attr.to_s] = Renderer.new :method => helper_method.to_sym, :type => :helper, :attr => attr, :helper_options => helper_options
     end
   end
 end
