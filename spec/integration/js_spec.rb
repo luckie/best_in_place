@@ -377,5 +377,22 @@ describe "JS behaviour", :js => true do
     end
 
   end
+
+  it "should display strings with quotes correctly in fields" do
+    @user.last_name = "A last name \"with double quotes\""
+    @user.save!
+
+    retry_on_timeout do
+      visit user_path(@user)
+
+      id = BestInPlace::Utils.build_best_in_place_id @user, :last_name
+      page.execute_script <<-JS
+        $("##{id}").click();
+      JS
+
+      text = page.find("##{id} input").value
+      text.should == "A last name \"with double quotes\""
+    end
+  end
 end
 
