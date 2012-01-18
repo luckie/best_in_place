@@ -475,6 +475,19 @@ describe "JS behaviour", :js => true do
         text.should == "New address"
       end
     end
+
+    it "should quote properly the data-original-content attribute" do
+      @user.address = "A's & B's"
+      @user.save!
+      retry_on_timeout do
+        visit user_path(@user)
+
+        id = BestInPlace::Utils.build_best_in_place_id @user, :address
+
+        text = page.find("##{id}")["data-original-content"]
+        text.should == "A's & B's"
+      end
+    end
   end
 
   describe "display_with" do
