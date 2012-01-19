@@ -466,10 +466,14 @@ describe "JS behaviour", :js => true do
 
         bip_text @user, :address, "New address"
 
+        sleep 1
+
         id = BestInPlace::Utils.build_best_in_place_id @user, :address
         page.execute_script <<-JS
           $("##{id}").click();
         JS
+
+        sleep 1
 
         text = page.find("##{id} input").value
         text.should == "New address"
@@ -547,10 +551,14 @@ describe "JS behaviour", :js => true do
 
         bip_text @user, :money, "40"
 
+        sleep 1
+
         id = BestInPlace::Utils.build_best_in_place_id @user, :money
         page.execute_script <<-JS
           $("##{id}").click();
         JS
+
+        sleep 1
 
         text = page.find("##{id} input").value
         text.should == "40"
