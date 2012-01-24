@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 3.1"
   s.add_dependency "jquery-rails"
 
-  s.add_development_dependency "rspec-rails", "~> 2.7.0"
+  s.add_development_dependency "rspec-rails", "~> 2.8.0"
   s.add_development_dependency "nokogiri", ">= 1.5.0"
   s.add_development_dependency "capybara", ">= 1.0.1"
 end
