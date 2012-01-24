@@ -368,36 +368,6 @@ describe "JS behaviour", :js => true do
     end
   end
 
-  it "should show validation errors using respond_with in the controller" do
-    @user.save!
-    visit user_path(@user)
-
-    bip_text @user, :last_name, "a"
-    page.should have_content("last_name has invalid length")
-  end
-
-  it "should be able to update a field after an error using respond_with in the controller" do
-    @user.save!
-    visit user_path(@user)
-
-    bip_text @user, :last_name, "a"
-
-    within("#last_name") do
-      page.should have_content("Napoli")
-    end
-
-    bip_text @user, :last_name, "Another"
-
-    within("#last_name") do
-      page.should have_content("Another")
-    end
-
-    visit user_path(@user)
-    within("#last_name") do
-      page.should have_content("Another")
-    end
-  end
-
   it "should fire off a callback when updating a field" do
     @user.save!
     visit user_path(@user)
