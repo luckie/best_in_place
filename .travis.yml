@@ -13,3 +13,6 @@ branches:
   only:
     - master
     - rails-3.0
+
+gemfile:
+  - gemfiles/Gemfile.rails-3.1
