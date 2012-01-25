@@ -45,7 +45,7 @@ Params:
 
 Options:
 
-- **:type** It can be only [:input, :textarea, :select, :checkbox, :date] or if undefined it defaults to :input.
+- **:type** It can be only [:input, :textarea, :select, :checkbox, :date (>= 1.0.4)] or if undefined it defaults to :input.
 - **:collection**: In case you are using the :select type then you must specify the collection of values it takes. In case you are
   using the :checkbox type you can specify the two values it can take, or otherwise they will default to Yes and No.
 - **:path**: URL to which the updating action will be sent. If not defined it defaults to the :object path.
@@ -399,6 +399,13 @@ Fork the project on [github](https://github.com/bernat/best_in_place 'bernat / b
 - v.1.0.3 replace apostrophes in collection with corresponding HTML entity,
   thanks @taavo. Implemented `:display_as` option and adding
   `respond_with_bip` to be used in the controller.
+- v.1.0.4 Depend on ActiveModel instead of ActiveRecord (thanks,
+  @skinnyfit). Added date type (thanks @taavo). Added new feature:
+display_with.
+- v.1.0.5 Fix a bug involving quotes (thanks @ygoldshtrakh). Minor fixes
+  by @bfalling. Add object name option (thanks @nicholassm). Check
+version of Rails before booting. Minor fixes.
+- v.1.0.6 Fix issue with display_with. Update test_app to 3.2.
 
 ###Rails 3.0 branch only
 - v.0.2.0 Added RSpec and Capybara setup, and some tests. Fix countries map syntax, Allowing href and some other HTML attributes. Adding Travis CI too. Added the best_in_place_if option. Added ajax:success trigger, thanks to @indrekj.
