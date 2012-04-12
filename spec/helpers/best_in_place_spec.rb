@@ -162,10 +162,11 @@ describe BestInPlace::BestInPlaceHelpers do
       end
 
       it "should have html5 data attributes" do
-        out = helper.best_in_place @user, :name, :data => { :foo => "bar" }
+        out = helper.best_in_place @user, :name, :data => { :foo => "awesome", :bar => "nasty" }
         nk = Nokogiri::HTML.parse(out)
         span = nk.css("span")
-        span.attribute("data-foo").value.should == "bar"
+        span.attribute("data-foo").value.should == "awesome"
+        span.attribute("data-bar").value.should == "nasty"
       end
 
       describe "display_as" do
