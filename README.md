@@ -185,17 +185,17 @@ You can also pass in a proc or lambda like this:
 
 ### Binding to ajax:success
 
-The 'ajax:success' event is triggered upon success. Bind to it as follows:
+The 'ajax:success' event is triggered upon success. Use bind:
 
     $('.best_in_place').bind("ajax:success", function(){$(this).closest('tr').effect('highlight'));});
 
 ### Providing data to the callback
 
-Use the :data option to provide data to the callback. For example, in your view:
+Use the :data option to add HTML5 data attributes to the best_in_place span. For example, in your view:
 
     <%= best_in_place @user, :name, :data => {:user_name => @user.name} %>
 
-Bind to the ajax:success:
+And in your javascript:
 
     $('.best_in_place').bind("ajax:success", function(){ alert('Name updated for '+$(this).data('userName')); });
 
