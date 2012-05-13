@@ -7,7 +7,7 @@ BipApp::Application.routes.draw do
   end
 
   namespace :cuca do
-    resources :cars, :only => [:show, :update]
+    resources :cars
   end
 
   root :to => "users#index"
