@@ -24,8 +24,16 @@ describe "Monitor new fields", :js => true do
       page.should have_content("lucianapoli@gmail")
     end
 
-    page.find('#email span').click();
+    bip_text @user, :email, "new@email.com"
 
-    page.should have_css("#email input")
+    within("#email") do
+      page.should have_content("new@email.com")
+    end
+
+    bip_text @user, :email, "new_two@email.com"
+
+    within("#email") do
+      page.should have_content("new_two@email.com")
+    end
   end
 end
