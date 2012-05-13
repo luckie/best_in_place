@@ -8,7 +8,7 @@ module Cuca
       @car = Car.find params[:id]
 
       respond_to do |format|
-        @car.update_attributes params[:car]
+        @car.update_attributes params[:cuca_car]
         format.json { respond_with_bip(@car) }
       end
     end
