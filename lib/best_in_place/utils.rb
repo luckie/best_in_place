@@ -1,7 +1,8 @@
 module BestInPlace
-  class Utils
+  module Utils
+    extend self
 
-    def self.build_best_in_place_id(object, field)
+    def build_best_in_place_id(object, field)
       if object.is_a?(Symbol) || object.is_a?(String)
         return "best_in_place_#{object}_#{field}"
       end
@@ -12,7 +13,7 @@ module BestInPlace
       id
     end
 
-    def self.object_to_key(object)
+    def object_to_key(object)
       ActiveModel::Naming.param_key(object.class)
     end
   end
