@@ -6,10 +6,14 @@ module BestInPlace
         return "best_in_place_#{object}_#{field}"
       end
 
-      id = "best_in_place_#{object.class.to_s.demodulize.underscore}"
+      id = "best_in_place_#{object_to_key(object)}"
       id << "_#{object.id}" if object.class.ancestors.include?(ActiveModel::Serializers::JSON)
       id << "_#{field}"
       id
+    end
+
+    def self.object_to_key(object)
+      ActiveModel::Naming.param_key(object.class)
     end
   end
 end

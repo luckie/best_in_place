@@ -7,7 +7,7 @@ module BestInPlace
   private
     def respond_bip_ok(obj)
       klass = obj.class.to_s
-      param_key = ActiveModel::Naming.param_key(obj.class)
+      param_key = BestInPlace::Utils.object_to_key(obj)
       updating_attr = params[param_key].keys.first
 
       if renderer = BestInPlace::DisplayMethods.lookup(klass, updating_attr)
