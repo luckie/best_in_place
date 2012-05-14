@@ -428,6 +428,11 @@ display_with.
   by @bfalling. Add object name option (thanks @nicholassm). Check
 version of Rails before booting. Minor fixes.
 - v.1.0.6 Fix issue with display_with. Update test_app to 3.2.
+- v.1.1.0 Changed $ by jQuery for compatibility (thanks @tschmitz), new
+  events for 'deactivate' (thanks @glebtv), added new 'data' attribute
+to BIP's span (thanks @straydogstudio), works with dynamically added
+elements to the page (thanks @enriclluelles), added object detection to
+the 'path' parameter and some more bugfixes.
 
 ###Rails 3.0 branch only
 - v.0.2.0 Added RSpec and Capybara setup, and some tests. Fix countries map syntax, Allowing href and some other HTML attributes. Adding Travis CI too. Added the best_in_place_if option. Added ajax:success trigger, thanks to @indrekj.
