@@ -597,4 +597,17 @@ describe "JS behaviour", :js => true do
       text.should == "A last name \"with double quotes\""
     end
   end
+
+  it "should allow me to set texts with quotes with sanitize => false" do
+    @user.save!
+
+    retry_on_timeout do
+      visit double_init_user_path(@user)
+
+      bip_area @user, :description, "A <a href=\"http://google.es\">link in this text</a> not sanitized."
+      visit double_init_user_path(@user)
+
+      page.should have_link("link in this text", :href => "http://google.es")
+    end
+  end
 end
