@@ -213,6 +213,14 @@ describe BestInPlace::BestInPlaceHelpers do
           span.text.should == "º150.00"
         end
       end
+
+      describe "array-like objects" do
+        it "should work with array-like objects in order to provide support to namespaces" do
+          nk = Nokogiri::HTML.parse(helper.best_in_place [:admin, @user], :name)
+          span = nk.css("span")
+          span.text.should == "Lucia"
+        end
+      end
     end
 
     context "with a text field attribute" do
@@ -324,34 +332,57 @@ describe BestInPlace::BestInPlaceHelpers do
 
   describe "#best_in_place_if" do
     context "when the parameters are valid" do
-      before(:each) do
-        @output = "Some Value"
-        @field = :somefield
-        @object = mock("object", @field => @output)
+      before do
+        @user = User.new :name => "Lucia",
+          :last_name => "Napoli",
+          :email => "lucianapoli@gmail.com",
+          :address => "Via Roma 99",
+          :zip => "25123",
+          :country => "2",
+          :receive_email => false,
+          :birth_date => Time.now.utc.to_date,
+          :description => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a lectus et lacus ultrices auctor. Morbi aliquet convallis tincidunt. Praesent enim libero, iaculis at commodo nec, fermentum a dolor. Quisque eget eros id felis lacinia faucibus feugiat et ante. Aenean justo nisi, aliquam vel egestas vel, porta in ligula. Etiam molestie, lacus eget tincidunt accumsan, elit justo rhoncus urna, nec pretium neque mi et lorem. Aliquam posuere, dolor quis pulvinar luctus, felis dolor tincidunt leo, eget pretium orci purus ac nibh. Ut enim sem, suscipit ac elementum vitae, sodales vel sem.",
+          :money => 150
         @options = {}
       end
+
       context "when the condition is true" do
         before {@condition = true}
+
+        it "should work with array-like objects in order to provide support to namespaces" do
+          nk = Nokogiri::HTML.parse(helper.best_in_place_if @condition, [:admin, @user], :name)
+          span = nk.css("span")
+          span.text.should == "Lucia"
+        end
+
         context "when the options parameter is left off" do
           it "should call best_in_place with the rest of the parameters and empty options" do
-            helper.should_receive(:best_in_place).with(@object, @field, {})
-            helper.best_in_place_if @condition, @object, @field
+            helper.should_receive(:best_in_place).with(@user, :name, {})
+            helper.best_in_place_if @condition, @user, :name
           end
         end
+
         context "when the options parameter is included" do
           it "should call best_in_place with the rest of the parameters" do
-            helper.should_receive(:best_in_place).with(@object, @field, @options)
-            helper.best_in_place_if @condition, @object, @field, @options
+            helper.should_receive(:best_in_place).with(@user, :name, @options)
+            helper.best_in_place_if @condition, @user, :name, @options
           end
         end
       end
+
       context "when the condition is false" do
         before {@condition = false}
-        it "should return the value of the field when the options value is left off" do
-          helper.best_in_place_if(@condition, @object, @field).should eq @output
+
+        it "should work with array-like objects in order to provide support to namespaces" do
+          helper.best_in_place_if(@condition, [:admin, @user], :name).should eq "Lucia"
         end
+
+        it "should return the value of the field when the options value is left off" do
+          helper.best_in_place_if(@condition, @user, :name).should eq "Lucia"
+        end
+
         it "should return the value of the field when the options value is included" do
-          helper.best_in_place_if(@condition, @object, @field, @options).should eq @output
+          helper.best_in_place_if(@condition, @user, :name, @options).should eq "Lucia"
         end
       end
     end
