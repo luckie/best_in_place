@@ -648,7 +648,7 @@ describe "JS behaviour", :js => true do
     
   end
 
-  it "should display strings with quotes correctly in fields" do
+  it "should display strings with quotes correctly in fields", wip:true do
     @user.last_name = "A last name \"with double quotes\""
     @user.save!
 
