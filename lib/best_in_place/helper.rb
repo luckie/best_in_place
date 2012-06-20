@@ -55,9 +55,9 @@ module BestInPlace
       end
       if !opts[:sanitize].nil? && !opts[:sanitize]
         out << " data-sanitize='false'>"
-        out << sanitize(value, :tags => %w(b i u s a strong em p h1 h2 h3 h4 h5 ul li ol hr pre span img br), :attributes => %w(id class href))
+        out << sanitize(value.to_s, :tags => %w(b i u s a strong em p h1 h2 h3 h4 h5 ul li ol hr pre span img br), :attributes => %w(id class href))
       else
-        out << ">#{sanitize(value, :tags => nil, :attributes => nil)}"
+        out << ">#{sanitize(value.to_s, :tags => nil, :attributes => nil)}"
       end
       out << "</span>"
       raw out
