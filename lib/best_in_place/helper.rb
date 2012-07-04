@@ -38,7 +38,7 @@ module BestInPlace
         classes = classes.flatten
         opts[:classes] = classes.map{|c| "'#{c}'"}.join(' ')
       end
-      out = "<span class='best_in_place' #{opts[:classes]}"
+      out = "<span class='best_in_place #{opts[classes]}'"
       out << " id='#{BestInPlace::Utils.build_best_in_place_id(real_object, field)}'"
       out << " data-url='#{opts[:path].blank? ? url_for(object) : url_for(opts[:path])}'"
       out << " data-object='#{opts[:object_name] || BestInPlace::Utils.object_to_key(real_object)}'"
