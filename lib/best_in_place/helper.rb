@@ -36,7 +36,7 @@ module BestInPlace
         classes = []
         classes << opts[:classes]
         classes = classes.flatten
-        opts[:classes] = classes.map{|c| "'#{c}'"}.join(' ')
+        opts[:classes] = classes.join(' ')
       end
       out = "<span class='best_in_place #{opts[classes]}'"
       out << " id='#{BestInPlace::Utils.build_best_in_place_id(real_object, field)}'"
