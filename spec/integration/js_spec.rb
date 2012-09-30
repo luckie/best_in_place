@@ -508,8 +508,18 @@ describe "JS behaviour", :js => true do
         page.should have_content("$100.00")
       end
     end
-    
-    
+
+    it "should let me use custom helpers with a lambda" do
+      @user.save!
+      visit user_path(@user)
+
+      page.should have_content("100.0 €")
+      bip_text @user, :money_custom, "250"
+
+      within("#money_custom") do
+        page.should have_content("250.0 €")
+      end
+    end
 
     it "should still show the custom format after an error" do
       @user.save!
@@ -582,9 +592,9 @@ describe "JS behaviour", :js => true do
 
       within("#alt_money") { page.should have_content("€58.00") }
     end
-    
+
     describe "display_with using a lambda" do
-  
+
 
       it "should render the money" do
         @user.save!
@@ -595,7 +605,7 @@ describe "JS behaviour", :js => true do
         end
       end
 
-      
+
 
       it "should show the new value using the helper after a successful update" do
         @user.save!
@@ -644,9 +654,9 @@ describe "JS behaviour", :js => true do
           text.should == "40"
         end
       end
-      
+
     end
-    
+
   end
 
   it "should display strings with quotes correctly in fields" do
@@ -678,42 +688,42 @@ describe "JS behaviour", :js => true do
       page.should have_link("link in this text", :href => "http://google.es")
     end
   end
-  
+
   it "should display single- and double-quotes in values appropriately" do
     @user.height = %{5' 6"}
     @user.save!
-    
+
     retry_on_timeout do
       visit user_path(@user)
-      
+
       id = BestInPlace::Utils.build_best_in_place_id @user, :height
       page.execute_script <<-JS
         $("##{id}").click();
       JS
-    
+
       page.find("##{id} select").value.should eq(%{5' 6"})
     end
   end
-  
+
   it "should save single- and double-quotes in values appropriately" do
     @user.height = %{5' 10"}
     @user.save!
-    
+
     retry_on_timeout do
       visit user_path(@user)
-      
+
       id = BestInPlace::Utils.build_best_in_place_id @user, :height
       page.execute_script <<-JS
         $("##{id}").click();
         $("##{id} select").val("5' 7\\\"");
         $("##{id} select").blur();
       JS
-      
+
       sleep 1
-      
+
       @user.reload
       @user.height.should eq(%{5' 7"})
     end
   end
-  
+
 end

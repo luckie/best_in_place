@@ -14,7 +14,9 @@ class User < ActiveRecord::Base
   validates :zip, :numericality => true, :length => { :minimum => 5 }
   validates_numericality_of :money, :allow_blank => true
   validates_numericality_of :money_proc, :allow_blank => true
-  
+
+  alias_attribute :money_custom, :money
+
   def address_format
     "<b>addr => [#{address}]</b>".html_safe
   end

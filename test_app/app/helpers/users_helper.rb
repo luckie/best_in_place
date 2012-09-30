@@ -1,3 +1,4 @@
+#encoding: utf-8
 module UsersHelper
   def height_collection
     [
@@ -20,5 +21,9 @@ module UsersHelper
       %{6' 5"} ,
       %{6' 6"}
     ]
+  end
+
+  def bb(value)
+    "#{value} €"
   end
 end
