@@ -689,6 +689,26 @@ describe "JS behaviour", :js => true do
     end
   end
 
+  it "should keep the same value after multipe edits" do
+    @user.save!
+
+    retry_on_timeout do
+      visit double_init_user_path(@user)
+
+      bip_area @user, :description, "A <a href=\"http://google.es\">link in this text</a> not sanitized."
+      visit double_init_user_path(@user)
+
+      page.should have_link("link in this text", :href => "http://google.es")
+
+      id = BestInPlace::Utils.build_best_in_place_id @user, :description
+      page.execute_script <<-JS
+        $("##{id}").click();
+      JS
+
+      page.find("##{id} textarea").value.should eq("A <a href=\"http://google.es\">link in this text</a> not sanitized.")
+    end
+  end
+
   it "should display single- and double-quotes in values appropriately" do
     @user.height = %{5' 6"}
     @user.save!
