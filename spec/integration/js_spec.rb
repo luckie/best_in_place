@@ -726,4 +726,18 @@ describe "JS behaviour", :js => true do
     end
   end
 
+  it "should escape javascript in test helpers" do
+    @user.save!
+
+    retry_on_timeout do
+      visit user_path(@user)
+
+      bip_text @user, :last_name, "Other '); alert('hi');"
+      sleep 1
+
+      @user.reload
+      @user.last_name.should eq("Other '); alert('hi');")
+    end
+  end
+
 end
