@@ -740,4 +740,39 @@ describe "JS behaviour", :js => true do
     end
   end
 
+  it "should save text in database without encoding" do
+    @user.save!
+
+    retry_on_timeout do
+      visit user_path(@user)
+
+      bip_text @user, :last_name, "Other \"thing\""
+      sleep 1
+
+      @user.reload
+      @user.last_name.should eq("Other \"thing\"")
+    end
+  end
+
+  it "should not strip html tags" do
+    @user.save!
+
+    retry_on_timeout do
+      visit user_path(@user)
+
+      bip_text @user, :last_name, "<script>alert('hi');</script>"
+      within("#last_name") { page.should have_content("<script>alert('hi');</script>") }
+
+      visit user_path(@user)
+
+      id = BestInPlace::Utils.build_best_in_place_id @user, :last_name
+      page.execute_script <<-JS
+        $("##{id}").click();
+      JS
+
+      page.find("##{id} input").value.should eq("<script>alert('hi');</script>")
+    end
+
+  end
+
 end
