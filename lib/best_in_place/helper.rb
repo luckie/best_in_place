@@ -15,12 +15,13 @@ module BestInPlace
       opts[:collection] ||= []
       field = field.to_s
 
-      value = build_value_for(real_object, field, opts)
+      display_value = build_value_for(real_object, field, opts)
 
       collection = nil
+      value = nil
       if opts[:type] == :select && !opts[:collection].blank?
-        v = real_object.send(field)
-        value = Hash[opts[:collection]].stringify_keys[v.to_s]
+        value = real_object.send(field)
+        display_value = Hash[opts[:collection]].stringify_keys[value.to_s]
         collection = opts[:collection].to_json
       end
       if opts[:type] == :checkbox
@@ -28,7 +29,7 @@ module BestInPlace
         if opts[:collection].blank? || opts[:collection].size != 2
           opts[:collection] = ["No", "Yes"]
         end
-        value = fieldValue ? opts[:collection][1] : opts[:collection][0]
+        display_value = fieldValue ? opts[:collection][1] : opts[:collection][0]
         collection = opts[:collection].to_json
       end
       classes = ["best_in_place"]
@@ -37,6 +38,7 @@ module BestInPlace
         classes << opts[:classes]
         classes.flatten!
       end
+
       out = "<span class='#{classes.join(" ")}'"
       out << " id='#{BestInPlace::Utils.build_best_in_place_id(real_object, field)}'"
       out << " data-url='#{opts[:path].blank? ? url_for(object) : url_for(opts[:path])}'"
@@ -52,6 +54,8 @@ module BestInPlace
       out << " data-inner-class='#{opts[:inner_class]}'" if opts[:inner_class]
       out << " data-html-attrs='#{opts[:html_attrs].to_json}'" unless opts[:html_attrs].blank?
       out << " data-original-content='#{attribute_escape(real_object.send(field))}'" if opts[:display_as] || opts[:display_with]
+      out << " data-value='#{attribute_escape(value)}'" if value
+
       if opts[:data] && opts[:data].is_a?(Hash)
         opts[:data].each do |k, v|
           if !v.is_a?(String) && !v.is_a?(Symbol)
@@ -62,9 +66,9 @@ module BestInPlace
       end
       if !opts[:sanitize].nil? && !opts[:sanitize]
         out << " data-sanitize='false'>"
-        out << value.to_s
+        out << display_value.to_s
       else
-        out << ">#{h(value.to_s)}"
+        out << ">#{h(display_value.to_s)}"
       end
       out << "</span>"
       raw out

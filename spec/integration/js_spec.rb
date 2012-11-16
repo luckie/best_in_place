@@ -847,7 +847,20 @@ describe "JS behaviour", :js => true do
 
       page.find("##{id} input").value.should eq("<script>alert('hi');</script>")
     end
-
   end
 
+  it "should generate the select html with the proper current option selected" do
+    @user.save!
+    visit user_path(@user)
+    within("#country") do
+      page.should have_content("Italy")
+    end
+
+    id = BestInPlace::Utils.build_best_in_place_id @user, :country
+    page.execute_script <<-JS
+      $("##{id}").click();
+    JS
+
+    page.should have_css("##{id} select option[value='2'][selected='selected']")
+  end
 end

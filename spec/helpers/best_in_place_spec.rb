@@ -328,6 +328,10 @@ describe BestInPlace::BestInPlaceHelpers do
         @span.text.should == "Italy"
       end
 
+      it "should include the proper data-value" do
+        @span.attribute("data-value").value.should == "2"
+      end
+
       context "with an apostrophe in it" do
         before do
           @apostrophe_countries = [[1, "Joe's Country"], [2, "Bob's Country"]]
