@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20120620165212) do
     t.float    "money"
     t.float    "money_proc"
     t.string   "height"
+    t.string   "favorite_movie"
   end
 
 end
