@@ -86,6 +86,7 @@ describe "JS behaviour", :js => true do
       :description => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a lectus et lacus ultrices auctor. Morbi aliquet convallis tincidunt. Praesent enim libero, iaculis at commodo nec, fermentum a dolor. Quisque eget eros id felis lacinia faucibus feugiat et ante. Aenean justo nisi, aliquam vel egestas vel, porta in ligula. Etiam molestie, lacus eget tincidunt accumsan, elit justo rhoncus urna, nec pretium neque mi et lorem. Aliquam posuere, dolor quis pulvinar luctus, felis dolor tincidunt leo, eget pretium orci purus ac nibh. Ut enim sem, suscipit ac elementum vitae, sodales vel sem."
 
     visit users_path
+
     within("tr#user_#{@user.id} > .name > span") do
       page.should have_content("Lucia")
       page.should have_xpath("//a[contains(@href,'#{user_path(@user)}')]")
@@ -97,13 +98,11 @@ describe "JS behaviour", :js => true do
       $("##{id} input[name='name']").val('Lisa');
       $("##{id} form").submit();
     JS
-    # binding.pry
-    # visit users_path
+
     within("tr#user_#{@user.id} > .name > span") do
       page.should have_content('Lisa')
-      page.should have_xpath("//a[contains(@href,'#{user_path(@user)}')]")
     end
-  end  
+  end
 
   it "should be able to use bip_text to update a text field" do
     @user.save!
