@@ -910,6 +910,7 @@ describe "JS behaviour", :js => true do
 
     bip_select @user, :country, "France"
 
+    sleep 1 # Increase if browser is slow
     id = BestInPlace::Utils.build_best_in_place_id @user, :country
     page.execute_script <<-JS
       $("##{id}").click();
