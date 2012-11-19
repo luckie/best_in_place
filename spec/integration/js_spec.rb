@@ -667,6 +667,24 @@ describe "JS behaviour", :js => true do
       end
     end
 
+    it "should keep link after aborting edit with display_with :link_to" do
+      @user.save!
+      visit users_path
+      within("tr#user_#{@user.id} > .name > span") do
+        page.should have_content("Lucia")
+        page.should have_xpath("//a[contains(@href,'#{user_path(@user)}')]")
+      end
+      id = BestInPlace::Utils.build_best_in_place_id @user, :name
+      page.execute_script <<-JS
+        jQuery("#edit_#{@user.id}").click();
+        jQuery("##{id} input[name='name']").blur();
+      JS
+      within("tr#user_#{@user.id} > .name > span") do
+        page.should have_content("Lucia")
+        page.should have_xpath("//a[contains(@href,'#{user_path(@user)}')]")
+      end
+    end
+
     describe "display_with using a lambda" do
 
 
