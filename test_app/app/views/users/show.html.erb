@@ -108,7 +108,7 @@
     <tr>
       <td>Money with proc</td>
       <td id="money_proc">
-        <%= best_in_place @user, :money_proc, :display_with => lambda{ |v| number_to_currency(v) } %>
+        <%= best_in_place @user, :money_proc, :display_with => lambda{ |v| v.blank? ? "No money" : number_to_currency(v) } %>
       </td>
     </tr>
     <tr>
