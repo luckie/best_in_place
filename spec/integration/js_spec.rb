@@ -303,6 +303,12 @@ describe "JS behaviour", :js => true do
     page.execute_script <<-JS
       $("##{id}").click();
       $("##{id} input[name='favorite_color']").val('Blue');
+    JS
+
+    page.find("##{id} input[type='submit']").value.should == 'Do it!'
+    page.should have_css("##{id} input[type='submit'].custom-submit.other-custom-submit")
+
+    page.execute_script <<-JS
       $("##{id} input[type='submit']").click();
     JS
 
@@ -324,6 +330,12 @@ describe "JS behaviour", :js => true do
     page.execute_script <<-JS
       $("##{id}").click();
       $("##{id} input[name='favorite_color']").val('Blue');
+    JS
+
+    page.find("##{id} input[type='button']").value.should == 'Nope'
+    page.should have_css("##{id} input[type='button'].custom-cancel.other-custom-cancel")
+
+    page.execute_script <<-JS
       $("##{id} input[type='button']").click();
     JS
 
