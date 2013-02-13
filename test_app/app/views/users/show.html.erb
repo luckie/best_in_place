@@ -74,6 +74,12 @@
       </td>
     </tr>
     <tr>
+      <td>Favorite locale</td>
+      <td id="favorite_locale">
+        <%= best_in_place @user, :favorite_locale, :nil => "N/A" %>
+      </td>
+    </tr>
+    <tr>
       <td>Favorite books</td>
       <td id="favorite_books">
         <%- opts = { :type => :textarea, :ok_button => 'Save', :cancel_button => 'Cancel' } %>
