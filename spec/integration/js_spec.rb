@@ -87,6 +87,36 @@ describe "JS behaviour", :js => true do
       end
     end
 
+    it "should display an empty input field the second time I open it" do
+      @user.favorite_locale = nil
+      @user.save!
+      visit user_path(@user)
+
+      within("#favorite_locale") do
+        page.should have_content("N/A")
+      end
+
+      id = BestInPlace::Utils.build_best_in_place_id @user, :favorite_locale
+      page.execute_script <<-JS
+        $("##{id}").click();
+      JS
+
+      text = page.find("##{id} input").value
+      text.should == ""
+
+      page.execute_script <<-JS
+        $("##{id} input[name='favorite_locale']").blur();
+        $("##{id} input[name='favorite_locale']").blur();
+      JS
+      sleep 1
+
+      page.execute_script <<-JS
+        $("##{id}").click();
+      JS
+
+      text = page.find("##{id} input").value
+      text.should == ""
+    end
   end
 
   it "should be able to update last but one item in list" do
@@ -195,7 +225,7 @@ describe "JS behaviour", :js => true do
       page.should have_content("France")
     end
   end
-  
+
   it "should apply the inner_class option to a select field" do
     @user.save!
     visit user_path(@user)
