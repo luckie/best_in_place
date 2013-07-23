@@ -16,6 +16,8 @@ module BestInPlace
 
       if renderer = BestInPlace::DisplayMethods.lookup(klass, updating_attr)
         render :json => renderer.render_json(obj)
+      elsif(!obj.warnings.empty?)
+        render :json => obj.warnings
       else
         head :no_content
       end
